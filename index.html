@@ -58,6 +58,11 @@
 
                 <!-- Action Buttons Row -->
                 <div class="flex items-center gap-1.5 sm:gap-2">
+                    <button id="open-status-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1 relative">
+                        <i class="fa-solid fa-chart-simple"></i> <span id="status-btn-label" class="hidden sm:inline">Stats</span>
+                        <span id="unallocated-badge" class="hidden px-1.5 py-0.2 bg-amber-500 text-black text-[10px] rounded-full font-black animate-pulse">0</span>
+                    </button>
                     <button id="toggle-status-md-btn" title="Toggle Hunter Status"
                         class="md:hidden px-2 py-1.5 bg-blue-900/40 hover:bg-blue-800/60 text-cyan-300 border border-blue-700/50 rounded-lg text-xs font-bold transition flex items-center gap-1">
                         <i class="fa-solid fa-user-ninja"></i>
@@ -172,6 +177,11 @@
                     </div>
                 </div>
 
+                <!-- Open Status Window Button -->
+                <button id="open-status-card-btn" class="w-full mb-3 py-1.5 bg-blue-950/80 hover:bg-blue-900/60 border border-cyan-500/40 text-cyan-300 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center gap-2 shadow-md">
+                    <i class="fa-solid fa-sliders"></i> <span id="status-card-btn-text">Open Status Window</span>
+                </button>
+
                 <!-- Expanded Details on Mobile / Always visible on Desktop -->
                 <div id="hunter-details-panel" class="w-full bg-slate-950/80 rounded-xl p-3 border border-blue-900/30 text-left text-xs space-y-1.5 font-mono">
                     <div class="flex justify-between text-slate-400"><span>Passive Extraction:</span> <span class="text-emerald-400 font-bold">+<span id="afk-rate">5</span> EXP/min</span></div>
@@ -214,6 +224,101 @@
             ARISE (Extract EXP)
         </button>
     </footer>
+
+    <!-- Status Window Modal (Solo Leveling System UI) -->
+    <div id="status-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-slate-900 via-slate-950 to-black border-2 border-cyan-500/60 rounded-2xl max-w-lg w-full p-4 sm:p-6 relative shadow-[0_0_35px_rgba(6,182,212,0.4)] flex flex-col">
+            <!-- Header -->
+            <div class="flex justify-between items-center pb-3 border-b border-cyan-900/50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-cubes text-cyan-400 text-lg animate-pulse"></i>
+                    <h3 id="status-modal-title" class="font-black text-cyan-400 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        SYSTEM STATUS WINDOW
+                    </h3>
+                </div>
+                <button id="close-status-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Unallocated Points Banner -->
+            <div class="my-3 p-3 bg-cyan-950/50 border border-cyan-500/40 rounded-xl flex justify-between items-center text-xs sm:text-sm font-mono">
+                <span id="unallocated-label" class="text-slate-300">Unallocated Stat Points:</span>
+                <span id="stat-points-val" class="text-amber-400 font-extrabold text-base sm:text-lg animate-pulse">0</span>
+            </div>
+
+            <!-- Stat Allocation List -->
+            <div class="space-y-2.5 my-2">
+                <!-- STR -->
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 border border-blue-900/40">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-xs sm:text-sm text-cyan-300" id="label-str">STR (Strength)</span>
+                            <span id="val-str" class="text-xs font-mono font-bold text-amber-400 bg-slate-900 px-2 py-0.5 rounded border border-blue-950">10</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono" id="desc-str">+5 Attack Power per point</p>
+                    </div>
+                    <button id="btn-allocate-str" onclick="allocateStat('str')" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white rounded-lg text-xs font-bold transition shadow-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- VIT -->
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 border border-blue-900/40">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-xs sm:text-sm text-rose-400" id="label-vit">VIT (Vitality)</span>
+                            <span id="val-vit" class="text-xs font-mono font-bold text-amber-400 bg-slate-900 px-2 py-0.5 rounded border border-blue-950">10</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono" id="desc-vit">+15 Max HP & heals Hunter per point</p>
+                    </div>
+                    <button id="btn-allocate-vit" onclick="allocateStat('vit')" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white rounded-lg text-xs font-bold transition shadow-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- AGI -->
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 border border-blue-900/40">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-xs sm:text-sm text-emerald-400" id="label-agi">AGI (Agility)</span>
+                            <span id="val-agi" class="text-xs font-mono font-bold text-amber-400 bg-slate-900 px-2 py-0.5 rounded border border-blue-950">10</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono" id="desc-agi">+1.5% Critical Hit Chance per point</p>
+                    </div>
+                    <button id="btn-allocate-agi" onclick="allocateStat('agi')" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white rounded-lg text-xs font-bold transition shadow-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- INT -->
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 border border-blue-900/40">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-xs sm:text-sm text-purple-400" id="label-int">INT (Intelligence)</span>
+                            <span id="val-int" class="text-xs font-mono font-bold text-amber-400 bg-slate-900 px-2 py-0.5 rounded border border-blue-950">10</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono" id="desc-int">+1 AFK Mana EXP/min per point</p>
+                    </div>
+                    <button id="btn-allocate-int" onclick="allocateStat('int')" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white rounded-lg text-xs font-bold transition shadow-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- SEN -->
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950/90 border border-blue-900/40">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-xs sm:text-sm text-amber-400" id="label-sen">SEN (Sense)</span>
+                            <span id="val-sen" class="text-xs font-mono font-bold text-amber-400 bg-slate-900 px-2 py-0.5 rounded border border-blue-950">10</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono" id="desc-sen">+3 Gold earned per correct answer</p>
+                    </div>
+                    <button id="btn-allocate-sen" onclick="allocateStat('sen')" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white rounded-lg text-xs font-bold transition shadow-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Shop Modal -->
     <div id="shop-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">

@@ -28,7 +28,21 @@ const translations = {
     baseAtkInc: "! Base ATK increased to ",
     buySuccess: "⚡ Purchased & Equipped: ",
     noGold: "❌ Insufficient Gold! Clear more Gate Bosses.",
-    resetConfirm: "⚠️ System Reset: Re-awaken as Level 1 Hunter and reset all artifacts?"
+    resetConfirm: "⚠️ System Reset: Re-awaken as Level 1 Hunter and reset all artifacts?",
+    statusTitle: "SYSTEM STATUS WINDOW",
+    statusBtn: "Stats",
+    unallocatedPoints: "Unallocated Stat Points:",
+    strLabel: "STR (Strength)",
+    vitLabel: "VIT (Vitality)",
+    agiLabel: "AGI (Agility)",
+    intLabel: "INT (Intelligence)",
+    senLabel: "SEN (Sense)",
+    strDesc: "+5 Attack Power per point",
+    vitDesc: "+15 Max HP & heals Hunter per point",
+    agiDesc: "+1.5% Critical Hit Chance per point",
+    intDesc: "+1 AFK Mana EXP/min per point",
+    senDesc: "+3 Gold earned per correct answer",
+    levelUpPointsAlert: "⚡ [SYSTEM NOTIFICATION] You earned +5 Stat Points! Open Status Window to allocate them."
   },
   th: {
     systemTitle: "จักรพรรดิแห่งเงา",
@@ -59,7 +73,21 @@ const translations = {
     baseAtkInc: "! พลังโจมตีพื้นฐานเพิ่มเป็น ",
     buySuccess: "⚡ ซื้อและสวมใส่สำเร็จ: ",
     noGold: "❌ ทองไม่เพียงพอ! จงไปกำจัดบอสเกทเพิ่มเติม",
-    resetConfirm: "⚠️ รีเซ็ตระบบ: คุณต้องการตื่นรู้ใหม่ในฐานะฮันเตอร์แรงก์ E และล้างไอเทมทั้งหมดหรือไม่?"
+    resetConfirm: "⚠️ รีเซ็ตระบบ: คุณต้องการตื่นรู้ใหม่ในฐานะฮันเตอร์แรงก์ E และล้างไอเทมทั้งหมดหรือไม่?",
+    statusTitle: "หน้าต่างสถานะระบบ",
+    statusBtn: "สเตตัส",
+    unallocatedPoints: "แต้มสเตตัสคงเหลือ:",
+    strLabel: "STR (พละกำลัง)",
+    vitLabel: "VIT (พลังชีวิต)",
+    agiLabel: "AGI (ความคล่องแคล่ว)",
+    intLabel: "INT (สติปัญญา)",
+    senLabel: "SEN (ประสาทสัมผัส)",
+    strDesc: "+5 พลังโจมตีต่อแต้ม",
+    vitDesc: "+15 พลังชีวิตสูงสุดและฟื้นฟูเลือดต่อแต้ม",
+    agiDesc: "+1.5% อัตราคริติคอลต่อแต้ม",
+    intDesc: "+1 EXP ออฟไลน์/นาที ต่อแต้ม",
+    senDesc: "+3 ทองที่ได้รับต่อคำตอบที่ถูกต้อง",
+    levelUpPointsAlert: "⚡ [การแจ้งเตือนจากระบบ] คุณได้รับแต้มสเตตัส +5 แต้ม! เปิดหน้าต่างสเตตัสเพื่ออัปเกรด"
   }
 };
 

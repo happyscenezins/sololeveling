@@ -4,10 +4,17 @@ const defaultState = {
   exp: 0,
   expToNext: 80,
   gold: 0,
-  baseAtk: 40,
   extraAtk: 0,
-  hp: 100,
-  maxHp: 100,
+  hp: 200,
+  maxHp: 200,
+  statPoints: 5,
+  stats: {
+    str: 10,
+    vit: 10,
+    agi: 10,
+    int: 10,
+    sen: 10
+  },
   afkRateBonus: 0,
   currentFloor: 0,
   challengeIndex: 0,
@@ -17,7 +24,11 @@ const defaultState = {
 
 let gameState = JSON.parse(localStorage.getItem("soloFluency_save")) || defaultState;
 if (gameState.challengeIndex === undefined) gameState.challengeIndex = 0;
-if (gameState.maxHp === undefined) gameState.maxHp = 100 + (gameState.level - 1) * 20;
+if (gameState.statPoints === undefined) gameState.statPoints = 0;
+if (!gameState.stats) {
+  gameState.stats = { str: 10, vit: 10, agi: 10, int: 10, sen: 10 };
+}
+if (gameState.maxHp === undefined) gameState.maxHp = 50 + (gameState.stats.vit * 15);
 if (gameState.hp === undefined) gameState.hp = gameState.maxHp;
 
 // DOM Elements
@@ -57,9 +68,17 @@ const closeShopBtn = document.getElementById("close-shop-btn");
 const shopItemsList = document.getElementById("shop-items-list");
 const resetSystemBtn = document.getElementById("reset-system-btn");
 
+const statusModal = document.getElementById("status-modal");
+const openStatusBtn = document.getElementById("open-status-btn");
+const openStatusCardBtn = document.getElementById("open-status-card-btn");
+const closeStatusBtn = document.getElementById("close-status-btn");
+const unallocatedBadge = document.getElementById("unallocated-badge");
+const statPointsVal = document.getElementById("stat-points-val");
+
 let currentBossHp = 0;
 
 function initGame() {
+  recalculateDerivedStats();
   calculateAfkGains();
   loadFloor(gameState.currentFloor);
   updateUI();
@@ -72,11 +91,24 @@ function initGame() {
   }, 5000);
 }
 
+function recalculateDerivedStats() {
+  gameState.maxHp = 50 + (gameState.stats.vit * 15);
+  if (gameState.hp > gameState.maxHp) gameState.hp = gameState.maxHp;
+}
+
+function getDerivedTotalAtk() {
+  return (gameState.stats.str * 5) + gameState.extraAtk;
+}
+
+function getDerivedAfkRate() {
+  return (5 * gameState.level) + (gameState.stats.int * 1) + gameState.afkRateBonus;
+}
+
 function calculateAfkGains() {
   const now = Date.now();
   const elapsedMinutes = Math.floor((now - gameState.lastActive) / 60000);
   if (elapsedMinutes > 0) {
-    const rate = (5 * gameState.level) + gameState.afkRateBonus;
+    const rate = getDerivedAfkRate();
     const gainedExp = Math.min(elapsedMinutes * rate, 10000);
     afkPendingExp.textContent = gainedExp;
     gameState.exp += gainedExp;
@@ -140,10 +172,12 @@ function executeSpell(selectedIndex) {
   const buttons = optionsGrid.querySelectorAll("button");
   buttons.forEach(b => b.disabled = true);
 
-  const totalAtk = gameState.baseAtk + gameState.extraAtk;
+  const totalAtk = getDerivedTotalAtk();
 
   if (selectedIndex === q.correctIndex) {
-    const isCrit = Math.random() > 0.4;
+    // Agility (AGI) increases crit chance
+    const critChance = Math.min(0.85, 0.35 + (gameState.stats.agi * 0.015));
+    const isCrit = Math.random() < critChance;
     const damage = Math.floor(totalAtk * (isCrit ? 2.2 : 1.2));
     currentBossHp -= damage;
     renderBossHp(floor.boss.maxHp);
@@ -154,8 +188,10 @@ function executeSpell(selectedIndex) {
     battleLog.className = "mt-4 p-3 rounded-xl text-sm border bg-blue-950/70 border-cyan-500 text-cyan-300 block";
     battleLog.innerHTML = `<strong>${isCrit ? t.critStrike : t.directHit}</strong> Dealt ${damage} damage. <em>${q.explanation}</em>`;
 
+    // Sense (SEN) increases gold gains
+    const goldEarned = 20 + (gameState.stats.sen * 3);
     gameState.exp += 35;
-    gameState.gold += 20;
+    gameState.gold += goldEarned;
     checkLevelUp();
 
     setTimeout(() => {
@@ -210,24 +246,97 @@ function handleBossDefeat() {
 
 function checkLevelUp() {
   const t = translations[gameState.lang || "en"];
+  let leveledUp = false;
+
   while (gameState.exp >= gameState.expToNext) {
     gameState.exp -= gameState.expToNext;
     gameState.level += 1;
-    gameState.baseAtk += 20;
-    gameState.maxHp += 20;
+    gameState.statPoints += 5; // Earn +5 Stat Points on Level Up
+    recalculateDerivedStats();
     gameState.hp = gameState.maxHp; // Heal to full on level up
     gameState.expToNext = Math.floor(gameState.expToNext * 1.4);
-    alert(`${t.levelUpAlert}${gameState.level}${t.baseAtkInc}${gameState.baseAtk}. ${t.hpRestored}`);
+    leveledUp = true;
   }
+
+  if (leveledUp) {
+    updateUI();
+    renderStatusModal();
+    statusModal.classList.remove("hidden");
+    alert(`${t.levelUpAlert}${gameState.level}!\n${t.levelUpPointsAlert}`);
+  }
+}
+
+function allocateStat(statKey) {
+  if (gameState.statPoints <= 0) return;
+  if (!gameState.stats[statKey]) gameState.stats[statKey] = 10;
+
+  gameState.statPoints -= 1;
+  gameState.stats[statKey] += 1;
+
+  if (statKey === "vit") {
+    recalculateDerivedStats();
+    gameState.hp = Math.min(gameState.maxHp, gameState.hp + 15);
+  }
+
+  updateUI();
+  renderStatusModal();
+  saveGame();
+}
+window.allocateStat = allocateStat;
+
+function renderStatusModal() {
+  const t = translations[gameState.lang || "en"];
+
+  // Labels
+  document.getElementById("status-modal-title").textContent = t.statusTitle;
+  document.getElementById("unallocated-label").textContent = t.unallocatedPoints;
+  statPointsVal.textContent = gameState.statPoints;
+
+  document.getElementById("label-str").textContent = t.strLabel;
+  document.getElementById("desc-str").textContent = t.strDesc;
+  document.getElementById("val-str").textContent = gameState.stats.str;
+
+  document.getElementById("label-vit").textContent = t.vitLabel;
+  document.getElementById("desc-vit").textContent = t.vitDesc;
+  document.getElementById("val-vit").textContent = gameState.stats.vit;
+
+  document.getElementById("label-agi").textContent = t.agiLabel;
+  document.getElementById("desc-agi").textContent = t.agiDesc;
+  document.getElementById("val-agi").textContent = gameState.stats.agi;
+
+  document.getElementById("label-int").textContent = t.intLabel;
+  document.getElementById("desc-int").textContent = t.intDesc;
+  document.getElementById("val-int").textContent = gameState.stats.int;
+
+  document.getElementById("label-sen").textContent = t.senLabel;
+  document.getElementById("desc-sen").textContent = t.senDesc;
+  document.getElementById("val-sen").textContent = gameState.stats.sen;
+
+  // Toggle plus button disabled state
+  ["str", "vit", "agi", "int", "sen"].forEach(key => {
+    const btn = document.getElementById(`btn-allocate-${key}`);
+    if (btn) btn.disabled = gameState.statPoints <= 0;
+  });
 }
 
 function updateUI() {
   const t = translations[gameState.lang || "en"];
-  const totalAtk = gameState.baseAtk + gameState.extraAtk;
+  recalculateDerivedStats();
+  const totalAtk = getDerivedTotalAtk();
   
   heroLvl.textContent = gameState.level;
   heroAtk.textContent = totalAtk;
   goldVal.textContent = gameState.gold;
+
+  // Stat point badge
+  if (unallocatedBadge) {
+    unallocatedBadge.textContent = gameState.statPoints;
+    if (gameState.statPoints > 0) {
+      unallocatedBadge.classList.remove("hidden");
+    } else {
+      unallocatedBadge.classList.add("hidden");
+    }
+  }
 
   // HP Bar & text updates
   if (headerHpVal) headerHpVal.textContent = gameState.hp;
@@ -242,17 +351,19 @@ function updateUI() {
   hunterRankBadge.textContent = rankInfo.rank;
   hunterSubrank.textContent = `Rank: ${rankInfo.rank}`;
   heroAvatar.innerHTML = `<i class="${rankInfo.icon}"></i>`;
-  heroAvatar.className = `text-7xl my-4 ${rankInfo.color} drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] transition-transform`;
+  heroAvatar.className = `text-5xl sm:text-7xl my-2 sm:my-3 ${rankInfo.color} drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] transition-transform`;
 
   // Localized UI Text
   document.getElementById("hero-title").textContent = t.awakenedName;
   document.getElementById("prompt-desc").textContent = t.resonancePrompt;
   document.getElementById("claim-afk-btn").textContent = t.ariseBtn;
-  document.getElementById("open-shop-btn").innerHTML = `<i class="fa-solid fa-store"></i> ${t.shopBtn}`;
-  document.getElementById("reset-system-btn").innerHTML = `<i class="fa-solid fa-rotate-left"></i> ${t.resetBtn}`;
+  document.getElementById("open-shop-btn").innerHTML = `<i class="fa-solid fa-store"></i> <span class="hidden sm:inline">${t.shopBtn}</span>`;
+  document.getElementById("status-btn-label").textContent = t.statusBtn;
+  document.getElementById("status-card-btn-text").textContent = t.statusTitle;
+  document.getElementById("reset-system-btn").innerHTML = `<i class="fa-solid fa-rotate-left"></i>`;
   document.getElementById("lang-btn-label").textContent = gameState.lang === "th" ? "TH" : "EN";
 
-  document.getElementById("afk-rate").textContent = (5 * gameState.level) + gameState.afkRateBonus;
+  document.getElementById("afk-rate").textContent = getDerivedAfkRate();
   shadowCount.textContent = gameState.currentFloor;
   equippedCount.textContent = gameState.inventory.length;
 
@@ -324,6 +435,24 @@ function saveGame() {
 openShopBtn.onclick = () => shopModal.classList.remove("hidden");
 closeShopBtn.onclick = () => shopModal.classList.add("hidden");
 
+if (openStatusBtn) {
+  openStatusBtn.onclick = () => {
+    renderStatusModal();
+    statusModal.classList.remove("hidden");
+  };
+}
+
+if (openStatusCardBtn) {
+  openStatusCardBtn.onclick = () => {
+    renderStatusModal();
+    statusModal.classList.remove("hidden");
+  };
+}
+
+if (closeStatusBtn) {
+  closeStatusBtn.onclick = () => statusModal.classList.add("hidden");
+}
+
 claimAfkBtn.onclick = () => {
   afkPendingExp.textContent = "0";
   updateUI();
@@ -334,6 +463,7 @@ document.getElementById("lang-toggle-btn").onclick = () => {
   gameState.lang = gameState.lang === "en" ? "th" : "en";
   updateUI();
   renderShop();
+  renderStatusModal();
   saveGame();
 };
 
@@ -346,6 +476,7 @@ resetSystemBtn.onclick = () => {
     loadFloor(0);
     updateUI();
     renderShop();
+    renderStatusModal();
     saveGame();
   }
 };
