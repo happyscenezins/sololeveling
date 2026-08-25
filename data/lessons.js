@@ -40,7 +40,7 @@ const translations = {
     strDesc: "+5 Attack Power per point",
     vitDesc: "+15 Max HP & heals Hunter per point",
     agiDesc: "+1.5% Critical Hit Chance per point",
-    intDesc: "+1 AFK Mana EXP/min per point",
+    intDesc: "+2% EXP gained per question per point",
     senDesc: "+3 Gold earned per correct answer",
     levelUpPointsAlert: "⚡ [SYSTEM NOTIFICATION] You earned +5 Stat Points! Open Status Window to allocate them."
   },
@@ -145,7 +145,7 @@ const dungeonFloors = [
     floor: 1,
     title: "E-Rank Gate: The Whispering Ruins",
     module: "Module 1: Structural Control & Narrative Precision",
-    boss: { name: "Syntactic Golem", maxHp: 120, iconClass: "fa-solid fa-cube", rank: "E-Rank" },
+    boss: { name: "Syntactic Golem", maxHp: 1000, iconClass: "fa-solid fa-cube", rank: "E-Rank" },
     challenges: [
       {
         lesson: "Lesson 1: Complex Sentence Mastery",
@@ -162,6 +162,22 @@ const dungeonFloors = [
         options: ["which", "that", "what", "whom"],
         correctIndex: 0,
         explanation: "Non-defining relative clauses set off by commas must take 'which', never 'that'."
+      },
+      {
+        lesson: "Lesson 1: Defining Relative Clauses",
+        prompt: "Identify the pronoun suited for specifying the key personnel:",
+        sentence: "The senior analyst ___ conducted the risk assessment recommended immediate hedging.",
+        options: ["who", "whom", "which", "whose"],
+        correctIndex: 0,
+        explanation: "'Who' functions as the subject pronoun for human antecedents in defining clauses."
+      },
+      {
+        lesson: "Lesson 1: Concession & Condition Clauses",
+        prompt: "Select the formal connector for positive conditional stipulations:",
+        sentence: "We will proceed with the merger ___ the due diligence report reveals no major liabilities.",
+        options: ["provided that", "in spite of", "whereas", "on account of"],
+        correctIndex: 0,
+        explanation: "'Provided that' introduces a mandatory precondition in formal contracts."
       }
     ]
   },
@@ -169,7 +185,7 @@ const dungeonFloors = [
     floor: 2,
     title: "E-Rank Gate: The Timeless Crypt",
     module: "Module 1: Structural Control & Narrative Precision",
-    boss: { name: "Chronos Specter", maxHp: 180, iconClass: "fa-solid fa-ghost", rank: "E-Rank" },
+    boss: { name: "Chronos Specter", maxHp: 1400, iconClass: "fa-solid fa-ghost", rank: "E-Rank" },
     challenges: [
       {
         lesson: "Lesson 2: Narrative Tenses & Sequence",
@@ -186,6 +202,22 @@ const dungeonFloors = [
         options: ["had been negotiating", "were negotiated", "have negotiated", "are negotiating"],
         correctIndex: 0,
         explanation: "Past Perfect Continuous highlights continuous duration up to a specific past disruption."
+      },
+      {
+        lesson: "Lesson 2: Negative Inversion & Sequence",
+        prompt: "Formulate the high-register inverted sequence for immediate events:",
+        sentence: "Scarcely ___ the announcement been made when market volatility surged.",
+        options: ["had", "has", "was", "did"],
+        correctIndex: 0,
+        explanation: "'Scarcely had + subject + past participle' creates formal chronological sequence."
+      },
+      {
+        lesson: "Lesson 2: Past Perfect Completion",
+        prompt: "Select the tense emphasizing completed duty before deadline:",
+        sentence: "The treasury team ___ the ledger audit before the fiscal year ended.",
+        options: ["had completed", "completes", "has completed", "is completing"],
+        correctIndex: 0,
+        explanation: "Past Perfect indicates completion prior to the past point 'the fiscal year ended'."
       }
     ]
   },
@@ -193,7 +225,7 @@ const dungeonFloors = [
     floor: 3,
     title: "D-Rank Gate: The Inverted Spire",
     module: "Module 1: Structural Control & Narrative Precision",
-    boss: { name: "Arch-Lich of Inversion", maxHp: 260, iconClass: "fa-solid fa-skull-crossbones", rank: "D-Rank" },
+    boss: { name: "Arch-Lich of Inversion", maxHp: 1900, iconClass: "fa-solid fa-skull-crossbones", rank: "D-Rank" },
     challenges: [
       {
         lesson: "Lesson 3: Conditionals & Inversion",
@@ -210,6 +242,22 @@ const dungeonFloors = [
         options: ["Had they reviewed", "Should they review", "Were they reviewing", "If they review"],
         correctIndex: 0,
         explanation: "'Had they reviewed' replaces 'If they had reviewed' in high-register prose."
+      },
+      {
+        lesson: "Lesson 3: Inverted Second Conditional",
+        prompt: "Structure the hypothetical present/future condition formally:",
+        sentence: "___ the compliance audit to fail, the entire expansion project would be halted.",
+        options: ["Were", "Had", "Should", "Unless"],
+        correctIndex: 0,
+        explanation: "'Were the compliance audit to fail' replaces 'If the audit were to fail'."
+      },
+      {
+        lesson: "Lesson 3: Restrictive Negative Inversion",
+        prompt: "Choose the inverted verb phrasing for restrictive emphasis:",
+        sentence: "Only by conducting thorough pilot tests ___ avert operational disruptions.",
+        options: ["can we", "we can", "we will", "have we"],
+        correctIndex: 0,
+        explanation: "'Only by [doing]' requires auxiliary inversion ('can we') in the main clause."
       }
     ]
   },
@@ -219,7 +267,7 @@ const dungeonFloors = [
     floor: 4,
     title: "D-Rank Gate: Hall of Deductions",
     module: "Module 2: Nuance, Modality, & Register",
-    boss: { name: "Dread Knight of Deduction", maxHp: 350, iconClass: "fa-solid fa-shield-cat", rank: "D-Rank" },
+    boss: { name: "Dread Knight of Deduction", maxHp: 2500, iconClass: "fa-solid fa-shield-cat", rank: "D-Rank" },
     challenges: [
       {
         lesson: "Lesson 4: Modal Verbs for Past Deduction",
@@ -236,6 +284,22 @@ const dungeonFloors = [
         options: ["should have updated", "must update", "would update", "might be updating"],
         correctIndex: 0,
         explanation: "'Should have [past participle]' communicates past obligation or regret."
+      },
+      {
+        lesson: "Lesson 4: Modals for Past Ability & Opportunity",
+        prompt: "Express past possibility that was not realized:",
+        sentence: "They ___ completed the migration yesterday, but server downtime prevented it.",
+        options: ["could have", "must have", "should be", "may be"],
+        correctIndex: 0,
+        explanation: "'Could have' indicates past potential that was thwarted by external circumstances."
+      },
+      {
+        lesson: "Lesson 4: Modals for Negative Past Deduction",
+        prompt: "Convey logical impossibility regarding a past event:",
+        sentence: "The system error ___ occurred without an unauthorized access breach.",
+        options: ["couldn't have", "must not", "should not", "won't have"],
+        correctIndex: 0,
+        explanation: "'Couldn't have' denotes strong negative certainty about a past action."
       }
     ]
   },
@@ -243,7 +307,7 @@ const dungeonFloors = [
     floor: 5,
     title: "C-Rank Gate: Impersonal Bastion",
     module: "Module 2: Nuance, Modality, & Register",
-    boss: { name: "Iron Golem of Protocol", maxHp: 460, iconClass: "fa-solid fa-robot", rank: "C-Rank" },
+    boss: { name: "Iron Golem of Protocol", maxHp: 3200, iconClass: "fa-solid fa-robot", rank: "C-Rank" },
     challenges: [
       {
         lesson: "Lesson 5: Passive Voice & Reporting Verbs",
@@ -260,6 +324,22 @@ const dungeonFloors = [
         options: ["appears to indicate", "definitely proves we saw", "makes us feel", "tells our eyes"],
         correctIndex: 0,
         explanation: "'Appears to indicate' provides precise academic and professional distancing."
+      },
+      {
+        lesson: "Lesson 5: Passive Future Actions",
+        prompt: "Select the passive voice construction for institutional directives:",
+        sentence: "The revised guidelines ___ to all regional operational directors tomorrow.",
+        options: ["will be distributed", "will distribute", "are distributing", "have distributed"],
+        correctIndex: 0,
+        explanation: "'Will be distributed' focuses objectively on the action and recipient."
+      },
+      {
+        lesson: "Lesson 5: Impersonal Estimation",
+        prompt: "Formulate neutral estimation in executive briefings:",
+        sentence: "It ___ that the infrastructure upgrade will take six months.",
+        options: ["is estimated", "estimates", "was estimating", "has estimated"],
+        correctIndex: 0,
+        explanation: "'It is estimated that' maintains professional detachment."
       }
     ]
   },
@@ -267,12 +347,12 @@ const dungeonFloors = [
     floor: 6,
     title: "C-Rank Gate: Diplomatic Sanctuary",
     module: "Module 2: Nuance, Modality, & Register",
-    boss: { name: "High Chancellor Malakor", maxHp: 580, iconClass: "fa-solid fa-hand-fist", rank: "C-Rank" },
+    boss: { name: "High Chancellor Malakor", maxHp: 4000, iconClass: "fa-solid fa-hand-fist", rank: "C-Rank" },
     challenges: [
       {
         lesson: "Lesson 6: Tone, Softening, & Hedging",
         prompt: "Soften this critical remark into constructive diplomatic feedback:",
-        sentence: "The budget estimate is wrong -> 'The calculation ___ minor revisions.'",
+        sentence: "The budget calculation ___ minor revisions.",
         options: ["might benefit from", "completely lacks", "must definitely undergo", "has no choice but"],
         correctIndex: 0,
         explanation: "'Might benefit from' softens blunt critique into collaborative feedback."
@@ -284,6 +364,22 @@ const dungeonFloors = [
         options: ["have a slight", "totally make", "bring an angry", "reject with"],
         correctIndex: 0,
         explanation: "'I have a slight reservation regarding...' balances politeness with clear boundary-setting."
+      },
+      {
+        lesson: "Lesson 6: Softened Preference",
+        prompt: "Select the polite subjunctive phrasing for suggesting alternatives:",
+        sentence: "'It would be preferable if we ___ the deployment schedule.'",
+        options: ["reconsidered", "reconsider", "are reconsidering", "will reconsider"],
+        correctIndex: 0,
+        explanation: "'It would be preferable if we [past verb]' softens executive recommendations."
+      },
+      {
+        lesson: "Lesson 6: Tentative Suggestions",
+        prompt: "Pick the hedged introductory phrase for diplomatic meetings:",
+        sentence: "'I am inclined to suggest that we ___ additional counsel.'",
+        options: ["seek", "seeking", "sought for", "to seek"],
+        correctIndex: 0,
+        explanation: "'I am inclined to suggest that we [bare verb]' softens proposals gently."
       }
     ]
   },
@@ -293,7 +389,7 @@ const dungeonFloors = [
     floor: 7,
     title: "B-Rank Gate: Cavern of Shifting Verbs",
     module: "Module 3: Natural Phrasing & Vocabulary Expansion",
-    boss: { name: "Hydra of Phrasal Roots", maxHp: 720, iconClass: "fa-solid fa-spaghetti-monster-flying", rank: "B-Rank" },
+    boss: { name: "Hydra of Phrasal Roots", maxHp: 5000, iconClass: "fa-solid fa-spaghetti-monster-flying", rank: "B-Rank" },
     challenges: [
       {
         lesson: "Lesson 7: Phrasal Verbs in Context",
@@ -310,6 +406,22 @@ const dungeonFloors = [
         options: ["make up for", "put up with", "come down with", "run out of"],
         correctIndex: 0,
         explanation: "'Make up for' means to compensate for an earlier shortfall."
+      },
+      {
+        lesson: "Lesson 7: Formulating Solutions",
+        prompt: "Select the natural three-word phrasal verb meaning 'devise/invent':",
+        sentence: "We must ___ a pragmatic solution before the license expires.",
+        options: ["come up with", "look up to", "keep up with", "catch up to"],
+        correctIndex: 0,
+        explanation: "'Come up with' means to originate or devise an idea or solution."
+      },
+      {
+        lesson: "Lesson 7: Contractual Withdrawal",
+        prompt: "Choose the phrasal verb meaning 'withdraw from an agreement':",
+        sentence: "The legal counsel advised us not to ___ on our signed commitments.",
+        options: ["back out", "turn out", "give out", "carry out"],
+        correctIndex: 0,
+        explanation: "'Back out' means to withdraw from an established promise or agreement."
       }
     ]
   },
@@ -317,7 +429,7 @@ const dungeonFloors = [
     floor: 8,
     title: "B-Rank Gate: Discourse Nexus",
     module: "Module 3: Natural Phrasing & Vocabulary Expansion",
-    boss: { name: "Colossus of Transitions", maxHp: 890, iconClass: "fa-solid fa-monument", rank: "B-Rank" },
+    boss: { name: "Colossus of Transitions", maxHp: 6200, iconClass: "fa-solid fa-monument", rank: "B-Rank" },
     challenges: [
       {
         lesson: "Lesson 8: Collocations & Discourse Markers",
@@ -334,6 +446,22 @@ const dungeonFloors = [
         options: ["take all variables", "make all variables", "do all variables", "have all variables"],
         correctIndex: 0,
         explanation: "The established natural English collocation is 'take [something] into consideration'."
+      },
+      {
+        lesson: "Lesson 8: Logical Consequence Transitions",
+        prompt: "Pick the formal transition indicating direct cause and effect:",
+        sentence: "The company sustained heavy losses; ___, restructuring became imperative.",
+        options: ["hence", "nevertheless", "whereas", "on the contrary"],
+        correctIndex: 0,
+        explanation: "'Hence' formalizes a direct logical result or consequence."
+      },
+      {
+        lesson: "Lesson 8: Strategic Balance Collocation",
+        prompt: "Select the verb that collocates naturally with 'a balance':",
+        sentence: "We must ___ an effective balance between rapid growth and risk mitigation.",
+        options: ["strike", "hit", "make", "pull"],
+        correctIndex: 0,
+        explanation: "The natural idiomatic business collocation is 'strike a balance'."
       }
     ]
   },
@@ -341,7 +469,7 @@ const dungeonFloors = [
     floor: 9,
     title: "A-Rank Gate: Idiomatic Abyss",
     module: "Module 3: Natural Phrasing & Vocabulary Expansion",
-    boss: { name: "Behemoth of Connotations", maxHp: 1100, iconClass: "fa-solid fa-dragon", rank: "A-Rank" },
+    boss: { name: "Behemoth of Connotations", maxHp: 7500, iconClass: "fa-solid fa-dragon", rank: "A-Rank" },
     challenges: [
       {
         lesson: "Lesson 9: Idioms & Connotations",
@@ -358,6 +486,22 @@ const dungeonFloors = [
         options: ["frugal", "stingy", "miserly", "cheap"],
         correctIndex: 0,
         explanation: "'Frugal' carries a positive connotation of wise thrift, unlike 'stingy' or 'cheap'."
+      },
+      {
+        lesson: "Lesson 9: Agreement Idioms",
+        prompt: "Select the natural idiom meaning 'reach mutual agreement':",
+        sentence: "After months of deadlock, negotiators finally ___ on key trade terms.",
+        options: ["saw eye to eye", "broke the leg", "hit the nail on head", "cut corners"],
+        correctIndex: 0,
+        explanation: "'Saw eye to eye' means reaching full agreement or alignment."
+      },
+      {
+        lesson: "Lesson 9: Market Impact Metaphors",
+        prompt: "Pick the natural metaphor for a transformative innovation:",
+        sentence: "The startup's innovative product was a ___ in the industry.",
+        options: ["game changer", "blessing in disguise", "wild goose chase", "piece of cake"],
+        correctIndex: 0,
+        explanation: "'Game changer' denotes a radical shift or breakthrough in a domain."
       }
     ]
   },
@@ -367,7 +511,7 @@ const dungeonFloors = [
     floor: 10,
     title: "A-Rank Gate: The Executive Citadel",
     module: "Module 4: Practical Application & Polish",
-    boss: { name: "Shadow Warlord Igris", maxHp: 1400, iconClass: "fa-solid fa-chess-knight", rank: "A-Rank" },
+    boss: { name: "Shadow Warlord Igris", maxHp: 9000, iconClass: "fa-solid fa-chess-knight", rank: "A-Rank" },
     challenges: [
       {
         lesson: "Lesson 10: Persuasive Executive Writing",
@@ -384,6 +528,22 @@ const dungeonFloors = [
         options: ["greatly appreciated", "demanded strongly", "forcefully needed", "commanded strictly"],
         correctIndex: 0,
         explanation: "'Would be greatly appreciated' is standard polite executive etiquette."
+      },
+      {
+        lesson: "Lesson 10: Authorization Framing",
+        prompt: "Select the precise formal verb for executive sanction:",
+        sentence: "We strongly urge the board to ___ immediate funding for the pilot program.",
+        options: ["authorize", "grant up", "give away", "pass along"],
+        correctIndex: 0,
+        explanation: "'Authorize' delivers authoritative, professional executive clarity."
+      },
+      {
+        lesson: "Lesson 10: Strategic Risk Vocabulary",
+        prompt: "Choose the adjective denoting wise, cautious business strategy:",
+        sentence: "In light of recent fiscal quarters, we recommend a ___ expansion strategy.",
+        options: ["prudent", "reckless", "hasty", "casual"],
+        correctIndex: 0,
+        explanation: "'Prudent' conveys wise, carefully calculated business foresight."
       }
     ]
   },
@@ -391,7 +551,7 @@ const dungeonFloors = [
     floor: 11,
     title: "S-Rank Red Gate: The Chamber of Flow",
     module: "Module 4: Practical Application & Polish",
-    boss: { name: "Monarch of Fluency: Antares", maxHp: 1800, iconClass: "fa-solid fa-fire-burner", rank: "S-Rank" },
+    boss: { name: "Monarch of Fluency: Antares", maxHp: 11000, iconClass: "fa-solid fa-fire-burner", rank: "S-Rank" },
     challenges: [
       {
         lesson: "Lesson 11: Spoken Fluency & Conversational Repair",
@@ -408,6 +568,22 @@ const dungeonFloors = [
         options: ["am getting at", "am talking loudly", "shout out", "make words for"],
         correctIndex: 0,
         explanation: "'What I am getting at is...' is an idiomatic repair phrase for clarifying intent."
+      },
+      {
+        lesson: "Lesson 11: Conversational Elaboration",
+        prompt: "Select the smooth discourse phrase for elaborating on a colleague's point:",
+        sentence: "'If I may ___ on your point, we also need to consider compliance requirements.'",
+        options: ["expand", "explode", "exceed", "exhale"],
+        correctIndex: 0,
+        explanation: "'If I may expand on your point' transitions smoothly in high-level discussions."
+      },
+      {
+        lesson: "Lesson 11: Consensus Summarization",
+        prompt: "Pick the standard professional phrase for confirming mutual alignment:",
+        sentence: "'To recap our discussion so far, we are ___ on phase one implementation.'",
+        options: ["in agreement", "under disagreement", "with opposition", "in conflict"],
+        correctIndex: 0,
+        explanation: "'In agreement' is standard concise professional alignment phrasing."
       }
     ]
   },
@@ -415,7 +591,7 @@ const dungeonFloors = [
     floor: 12,
     title: "S-Rank Sovereign Gate: The World Monarch",
     module: "Module 4: Practical Application & Polish",
-    boss: { name: "Sovereign of Absolute Precision", maxHp: 2500, iconClass: "fa-solid fa-crown", rank: "S-Rank Monarch" },
+    boss: { name: "Sovereign of Absolute Precision", maxHp: 15000, iconClass: "fa-solid fa-crown", rank: "S-Rank Monarch" },
     challenges: [
       {
         lesson: "Lesson 12: Capstone Error Elimination Workshop",
@@ -442,6 +618,32 @@ const dungeonFloors = [
         ],
         correctIndex: 0,
         explanation: "'Collaborate' already means work together; pairing it with 'together' creates unnecessary redundancy."
+      },
+      {
+        lesson: "Lesson 12: Prepositional Precision",
+        prompt: "Identify the sentence with correct verb-preposition pairing:",
+        sentence: "Choose the correct sentence without prepositional error:",
+        options: [
+          "She insisted on reviewing the contract terms.",
+          "She insisted to review the contract terms.",
+          "She insisted for reviewing the contract terms.",
+          "She insisted about reviewing the contract terms."
+        ],
+        correctIndex: 0,
+        explanation: "'Insist' correctly pairs with the preposition 'on' followed by a gerund ('insisted on reviewing')."
+      },
+      {
+        lesson: "Lesson 12: Misplaced Modifier Workshop",
+        prompt: "Select the sentence free of dangling or misplaced modifiers:",
+        sentence: "Identify the sentence with clear modifier attribution:",
+        options: [
+          "Having reviewed the data, the manager submitted the report.",
+          "Having reviewed the data, the report was submitted.",
+          "Reviewing the data, the meeting ended early.",
+          "Submitting the report, the computer crashed."
+        ],
+        correctIndex: 0,
+        explanation: "The modifier 'Having reviewed the data' must be immediately followed by the subject who performed the action ('the manager')."
       }
     ]
   }

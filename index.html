@@ -145,13 +145,17 @@
 
             <!-- Active Gate & Boss Room (First on Mobile for Immediate Action!) -->
             <div class="md:col-span-2 order-1 md:order-2 bg-gradient-to-b from-slate-900 via-slate-950 to-black border border-rose-900/40 rounded-2xl p-4 sm:p-5 flex flex-col justify-between relative boss-glow">
-                <div class="flex justify-between items-center text-xs gap-2">
+                <div class="flex justify-between items-center text-xs gap-2 flex-wrap">
                     <span id="gate-rank-badge" class="px-2 py-0.5 sm:px-2.5 sm:py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded font-mono font-bold tracking-wider text-[10px] sm:text-xs">
                         GATE FLOOR 1
                     </span>
-                    <span id="module-label" class="text-slate-400 font-mono text-[11px] sm:text-xs truncate max-w-[180px] sm:max-w-[280px]">
-                        Module 1
-                    </span>
+                    <!-- 12-Lesson Selector Dropdown -->
+                    <div class="flex items-center gap-1.5">
+                        <label for="lesson-select" class="text-slate-400 font-mono text-[10px] sm:text-xs shrink-0"><i class="fa-solid fa-layer-group text-cyan-400"></i> Gate Lesson:</label>
+                        <select id="lesson-select" onchange="selectLesson(parseInt(this.value))" class="bg-slate-950/90 text-cyan-300 border border-blue-800/60 hover:border-cyan-500 rounded-lg text-[11px] sm:text-xs font-mono px-2 py-1 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer max-w-[170px] sm:max-w-[250px] truncate">
+                            <!-- Injected dynamically via JS -->
+                        </select>
+                    </div>
                 </div>
 
                 <div class="flex flex-col items-center justify-center py-2 sm:py-4">
@@ -212,7 +216,7 @@
 
                 <!-- Expanded Details on Mobile / Always visible on Desktop -->
                 <div id="hunter-details-panel" class="w-full bg-slate-950/80 rounded-xl p-3 border border-blue-900/30 text-left text-xs space-y-1.5 font-mono">
-                    <div class="flex justify-between text-slate-400"><span>Passive Extraction:</span> <span class="text-emerald-400 font-bold">+<span id="afk-rate">5</span> EXP/min</span></div>
+                    <div class="flex justify-between text-slate-400"><span>Combat System:</span> <span class="text-emerald-400 font-bold">Active Practice</span></div>
                     <div class="flex justify-between text-slate-400"><span>Shadow Army Count:</span> <span id="shadow-count" class="text-cyan-400 font-bold">0</span></div>
                     <div class="flex justify-between text-slate-400"><span>Equipped Artifacts:</span> <span id="equipped-count" class="text-amber-400 font-bold">0</span></div>
                 </div>
@@ -242,15 +246,12 @@
 
     </main>
 
-    <!-- AFK Shadow Extraction Footer Bar -->
+    <!-- Active System Status Footer Bar -->
     <footer class="bg-black/90 border-t border-blue-950 px-3 sm:px-6 py-2.5 flex justify-between items-center backdrop-blur-md sticky bottom-0 z-40">
         <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono text-cyan-300 truncate">
-            <i class="fa-solid fa-dungeon text-blue-400 text-sm sm:text-base animate-pulse"></i>
-            <span class="truncate">Offline Mana: <strong id="afk-pending-exp" class="text-amber-400">0</strong> EXP</span>
+            <i class="fa-solid fa-shield-halved text-cyan-400 text-sm sm:text-base animate-pulse"></i>
+            <span class="truncate">System Protocol: <strong class="text-emerald-400">Answer Questions to Slay Gate Bosses & Level Up!</strong></span>
         </div>
-        <button id="claim-afk-btn" class="px-3 sm:px-4 py-1.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-lg text-xs font-bold transition shadow-lg shadow-blue-600/40 shrink-0">
-            ARISE (Extract EXP)
-        </button>
     </footer>
 
     <!-- Status Window Modal (Solo Leveling System UI) -->
@@ -324,7 +325,7 @@
                             <span class="font-bold text-xs sm:text-sm text-purple-400" id="label-int">INT (Intelligence)</span>
                             <span id="val-int" class="text-xs font-mono font-bold text-amber-400 bg-slate-900 px-2 py-0.5 rounded border border-blue-950">10</span>
                         </div>
-                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono" id="desc-int">+1 AFK Mana EXP/min per point</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono" id="desc-int">+2% EXP gained per question per point</p>
                     </div>
                     <button id="btn-allocate-int" onclick="allocateStat('int')" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white rounded-lg text-xs font-bold transition shadow-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
                         <i class="fa-solid fa-plus"></i>
