@@ -1803,6 +1803,21 @@ if (voiceSpellBtn) {
   voiceSpellBtn.onclick = () => startVoiceSpellRecognition();
 }
 
+const openPrivacyBtn = document.getElementById("open-privacy-btn");
+const closePrivacyBtn = document.getElementById("close-privacy-btn");
+const acceptPrivacyBtn = document.getElementById("accept-privacy-btn");
+const privacyModal = document.getElementById("privacy-modal");
+
+if (openPrivacyBtn && privacyModal) {
+  openPrivacyBtn.onclick = () => privacyModal.classList.remove("hidden");
+}
+if (closePrivacyBtn && privacyModal) {
+  closePrivacyBtn.onclick = () => privacyModal.classList.add("hidden");
+}
+if (acceptPrivacyBtn && privacyModal) {
+  acceptPrivacyBtn.onclick = () => privacyModal.classList.add("hidden");
+}
+
 window.addEventListener("beforeunload", () => {
   saveGame();
 });

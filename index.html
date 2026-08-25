@@ -7,6 +7,8 @@
     <title>Arise Hunter — Solo Fluency System</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#020617">
+    <!-- Google AdSense Tag -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -261,6 +263,23 @@
                     <div id="battle-log" class="hidden mt-4 p-4 rounded-xl text-sm sm:text-base border font-mono"></div>
                 </div>
 
+                <!-- Friendly Hunter Support Ad Unit (Non-Intrusive) -->
+                <div class="bg-slate-900/60 border border-blue-900/30 rounded-2xl p-2.5 my-1 text-center overflow-hidden">
+                    <div class="flex justify-between items-center text-[10px] text-slate-500 font-mono mb-1.5 px-1">
+                        <span><i class="fa-solid fa-shield-halved text-blue-400"></i> SPONSORED GUILD SUPPORT</span>
+                        <span class="text-[9px] text-slate-600 tracking-wider">ADVERTISEMENT</span>
+                    </div>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                         data-ad-slot="AUTO"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
                 <!-- Active Gate & Boss Room -->
                 <div class="bg-gradient-to-b from-slate-900 via-slate-950 to-black border border-rose-900/40 rounded-2xl p-4 sm:p-6 flex flex-col justify-between relative boss-glow">
                     <div class="flex justify-between items-center text-xs sm:text-sm gap-2 flex-wrap mb-2">
@@ -355,10 +374,15 @@
     </main>
 
     <!-- Active System Status Footer Bar -->
-    <footer class="bg-black/90 border-t border-blue-950 px-3 sm:px-6 py-2.5 flex justify-between items-center backdrop-blur-md sticky bottom-0 z-40">
+    <footer class="bg-black/90 border-t border-blue-950 px-3 sm:px-6 py-2.5 flex flex-wrap justify-between items-center gap-2 backdrop-blur-md sticky bottom-0 z-40">
         <div class="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono text-cyan-300 truncate">
             <i class="fa-solid fa-shield-halved text-cyan-400 text-sm sm:text-base animate-pulse"></i>
             <span class="truncate">System Protocol: <strong class="text-emerald-400">Answer Questions to Slay Gate Bosses & Level Up!</strong></span>
+        </div>
+        <div class="flex items-center gap-3 text-[11px] font-mono text-slate-400">
+            <button id="open-privacy-btn" class="hover:text-cyan-300 transition underline cursor-pointer">Privacy Policy</button>
+            <span>•</span>
+            <span class="text-slate-500">v2.0</span>
         </div>
     </footer>
 
@@ -669,6 +693,30 @@
             <div id="grimoire-list-container" class="space-y-2.5 my-2 font-mono flex-1 overflow-y-auto pr-1">
                 <!-- Injected via JS -->
             </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy & AdSense Compliance Modal -->
+    <div id="privacy-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-slate-900 via-slate-950 to-black border-2 border-blue-500/60 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-[0_0_35px_rgba(59,130,246,0.4)] flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-blue-900/50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield text-cyan-400 text-lg"></i>
+                    <h3 class="font-black text-cyan-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        PRIVACY POLICY & SYSTEM DIRECTIVES
+                    </h3>
+                </div>
+                <button id="close-privacy-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3 my-3 text-xs text-slate-300 font-sans leading-relaxed flex-1 overflow-y-auto pr-1">
+                <p><strong>1. Information Collection:</strong> Arise Hunter / Solo Fluency System is a gamified educational RPG web application. Game progress, level, stats, and mistakes are stored locally on your device via HTML5 LocalStorage.</p>
+                <p><strong>2. Cookies & Advertising:</strong> We use Google AdSense to serve non-intrusive advertisements to support server hosting and free educational content. Google and third-party vendors use cookies to serve ads based on prior visits to this website or other websites on the internet.</p>
+                <p><strong>3. Opting Out:</strong> Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" class="text-cyan-400 underline">Google Ads Settings</a> or <a href="https://www.aboutads.info" target="_blank" class="text-cyan-400 underline">aboutads.info</a>.</p>
+                <p><strong>4. Speech Recognition:</strong> Voice spell functionality uses your browser's built-in Web Speech API. Audio is processed according to your browser vendor's privacy policy and is not recorded or stored by our system.</p>
+            </div>
+            <button id="accept-privacy-btn" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs font-mono transition cursor-pointer">
+                UNDERSTOOD
+            </button>
         </div>
     </div>
 
