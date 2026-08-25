@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Arise Hunter — Solo Fluency System</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#020617">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -61,6 +63,50 @@
             background: rgba(59, 130, 246, 0.5);
             border-radius: 4px;
         }
+
+        /* Screen Shake & Damage Vignette FX */
+        @keyframes screenShake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-8px, 6px) rotate(-1deg); }
+            40% { transform: translate(8px, -6px) rotate(1deg); }
+            60% { transform: translate(-6px, -4px) rotate(-1deg); }
+            80% { transform: translate(6px, 4px) rotate(1deg); }
+        }
+        .animate-shake {
+            animation: screenShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        @keyframes damageVignette {
+            0% { opacity: 0.9; }
+            100% { opacity: 0; }
+        }
+        .damage-flash {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            box-shadow: inset 0 0 100px 40px rgba(225, 29, 72, 0.8);
+            animation: damageVignette 0.6s ease-out forwards;
+        }
+
+        @keyframes floatDamageText {
+            0% { transform: translateY(0) scale(1.3); opacity: 1; }
+            100% { transform: translateY(-45px) scale(0.9); opacity: 0; }
+        }
+        .floating-damage {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: monospace;
+            font-weight: 900;
+            color: #f43f5e;
+            font-size: 1.5rem;
+            text-shadow: 0 0 12px rgba(225, 29, 72, 0.9), 0 0 20px #000;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatDamageText 0.9s ease-out forwards;
+        }
     </style>
 </head>
 
@@ -77,15 +123,59 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-1.5 sm:gap-2">
-                            <span class="text-[9px] sm:text-[10px] font-mono tracking-widest text-blue-400 uppercase">[HUNTER SYSTEM]</span>
+                            <span id="system-header-label" class="text-[9px] sm:text-[10px] font-mono tracking-widest text-blue-400 uppercase">[HUNTER SYSTEM]</span>
                             <span id="hunter-rank-badge" class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">E-Rank</span>
                         </div>
-                        <h1 class="font-extrabold text-xs sm:text-sm tracking-wider uppercase text-white truncate max-w-[130px] sm:max-w-none">Shadow Monarch</h1>
+                        <h1 id="system-title-label" class="font-extrabold text-xs sm:text-sm tracking-wider uppercase text-white truncate max-w-[130px] sm:max-w-none">Shadow Monarch</h1>
                     </div>
                 </div>
 
                 <!-- Action Buttons Row -->
-                <div class="flex items-center gap-1.5 sm:gap-2">
+                <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end">
+                    <!-- PWA Install App Button -->
+                    <button id="install-pwa-btn" class="hidden px-2 sm:px-3 py-1.5 bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/50 rounded-lg text-xs font-bold transition flex items-center gap-1 animate-pulse">
+                        <i class="fa-solid fa-download"></i> <span id="install-btn-label" class="hidden sm:inline">INSTALL SYSTEM APP</span>
+                    </button>
+                    <!-- Awakening Trials Button -->
+                    <button id="open-trials-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-amber-600/20 hover:bg-amber-600/40 text-amber-300 border border-amber-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-trophy text-amber-400"></i> <span id="trials-btn-label" class="hidden sm:inline">Trials</span>
+                    </button>
+                    <!-- Daily System Directives Button -->
+                    <button id="open-daily-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-calendar-check text-emerald-400"></i> <span id="daily-btn-label" class="hidden sm:inline">Directives</span>
+                    </button>
+                    <!-- Global Leaderboards Button -->
+                    <button id="open-leaderboard-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 border border-blue-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-ranking-star text-cyan-400"></i> <span id="leaderboard-btn-label" class="hidden sm:inline">Ranks</span>
+                    </button>
+                    <!-- Class Specialization Button -->
+                    <button id="open-class-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 border border-purple-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-graduation-cap"></i> <span id="class-btn-label" class="hidden sm:inline">Class</span>
+                    </button>
+                    <!-- Daily Red Gate Event Button -->
+                    <button id="open-redgate-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-rose-600/20 hover:bg-rose-600/40 text-rose-300 border border-rose-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-dungeon text-rose-400"></i> <span id="redgate-btn-label" class="hidden sm:inline">Red Gate</span>
+                    </button>
+                    <!-- World Raid Boss Button -->
+                    <button id="open-raid-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-dragon text-amber-400"></i> <span id="raid-btn-label" class="hidden sm:inline">World Raid</span>
+                    </button>
+                    <!-- Grimoire of Flaws Button -->
+                    <button id="open-grimoire-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-700/50 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-book-skull text-rose-400"></i> <span id="grimoire-btn-label" class="hidden sm:inline">Grimoire</span>
+                    </button>
+                    <!-- Shadow Army Button -->
+                    <button id="open-army-btn"
+                        class="px-2 sm:px-3 py-1.5 bg-cyan-950/40 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-700/50 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-ghost text-cyan-400"></i> <span id="army-btn-label" class="hidden sm:inline">Army</span>
+                    </button>
                     <button id="open-status-btn"
                         class="px-2 sm:px-3 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1 relative">
                         <i class="fa-solid fa-chart-simple"></i> <span id="status-btn-label" class="hidden sm:inline">Stats</span>
@@ -97,7 +187,7 @@
                     </button>
                     <button id="open-shop-btn"
                         class="px-2 sm:px-3 py-1.5 bg-amber-600/20 hover:bg-amber-600/40 text-amber-300 border border-amber-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                        <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">Shop</span>
+                        <i class="fa-solid fa-store"></i> <span id="shop-btn-label" class="hidden sm:inline">Shop</span>
                     </button>
                     <button id="lang-toggle-btn"
                         class="px-2 sm:px-3 py-1.5 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1">
@@ -195,47 +285,54 @@
                     <i class="fa-solid fa-user-ninja"></i>
                 </div>
 
-                <h2 id="hero-title" class="font-extrabold text-base sm:text-lg text-slate-100">Sung Jin-Woo (Awakened)</h2>
-                <p id="hunter-subrank" class="text-xs text-blue-300 mb-3 font-mono">Rank: E-Rank Striker</p>
+                <!-- Hunter Details -->
+                <div class="text-center w-full">
+                    <span id="hunter-status-tag" class="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">[HUNTER STATUS]</span>
+                    <h2 id="hero-title" class="font-black text-base sm:text-lg text-white uppercase tracking-wider font-mono">Sung Jin-Woo</h2>
+                    <p id="hunter-subrank" class="text-xs text-blue-300 mb-3 font-mono">Rank: E-Rank Striker</p>
 
-                <!-- Hunter Health Bar -->
-                <div class="w-full mb-3 space-y-1">
-                    <div class="flex justify-between text-xs font-mono font-bold">
-                        <span class="text-rose-400 flex items-center gap-1.5"><i class="fa-solid fa-heart animate-pulse"></i> HUNTER HP</span>
-                        <span id="hero-hp-label" class="text-slate-300">100 / 100</span>
+                    <!-- Hunter Health Bar -->
+                    <div class="w-full mb-3 space-y-1">
+                        <div class="flex justify-between text-xs font-mono font-bold">
+                            <span id="hero-hp-title" class="text-rose-400 flex items-center gap-1.5"><i class="fa-solid fa-heart animate-pulse"></i> HUNTER HP</span>
+                            <span id="hero-hp-label" class="text-slate-300">100 / 100</span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-3 border border-rose-950 overflow-hidden p-0.5">
+                            <div id="hero-hp-bar" class="bg-gradient-to-r from-red-600 via-rose-500 to-rose-400 h-full w-full rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(244,63,94,0.6)]"></div>
+                        </div>
                     </div>
-                    <div class="w-full bg-slate-950 rounded-full h-3 border border-rose-950 overflow-hidden p-0.5">
-                        <div id="hero-hp-bar" class="bg-gradient-to-r from-red-600 via-rose-500 to-rose-400 h-full w-full rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(244,63,94,0.6)]"></div>
+
+                    <!-- Open Status Window Button -->
+                    <button id="open-status-card-btn" class="w-full mb-3 py-1.5 bg-blue-950/80 hover:bg-blue-900/60 border border-cyan-500/40 text-cyan-300 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-solid fa-sliders"></i> <span id="status-card-btn-text">Open Status Window</span>
+                    </button>
+
+                    <!-- Expanded Details on Mobile / Always visible on Desktop -->
+                    <div id="hunter-details-panel" class="w-full bg-slate-950/80 rounded-xl p-3 border border-blue-900/30 text-left text-xs space-y-1.5 font-mono">
+                        <div class="flex justify-between text-slate-400"><span id="combat-active-label">Combat System:</span> <span class="text-emerald-400 font-bold">Active Practice</span></div>
+                        <div class="flex justify-between text-slate-400"><span id="shadow-army-label">Shadow Army Count:</span> <span id="shadow-count" class="text-cyan-400 font-bold">0</span></div>
+                        <div class="flex justify-between text-slate-400"><span id="equipped-artifacts-label">Equipped Artifacts:</span> <span id="equipped-count" class="text-amber-400 font-bold">0</span></div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Open Status Window Button -->
-                <button id="open-status-card-btn" class="w-full mb-3 py-1.5 bg-blue-950/80 hover:bg-blue-900/60 border border-cyan-500/40 text-cyan-300 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center gap-2 shadow-md">
-                    <i class="fa-solid fa-sliders"></i> <span id="status-card-btn-text">Open Status Window</span>
+            <!-- Battle Combat Zone (Placed directly after Boss card on mobile for smooth flow) -->
+            <div id="combat-card" class="bg-slate-900/90 border border-blue-900/40 rounded-2xl p-4 sm:p-6 relative hunter-glow">
+                <div class="flex justify-between items-center mb-2.5">
+                    <span id="lesson-tag" class="text-[11px] sm:text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Lesson 1 Spell</span>
+                    <span id="rune-skill-label" class="text-[11px] sm:text-xs text-slate-400 font-mono"><i class="fa-solid fa-hand-sparkles text-blue-400"></i> Rune Skill</span>
+                </div>
+
+                <h3 id="prompt-desc" class="text-slate-300 text-xs sm:text-sm font-medium mb-3">Formulate the correct grammatical resonance:</h3>
+
+                <div class="bg-black/70 border border-blue-950 rounded-xl p-3.5 sm:p-4 mb-3 sm:mb-4 text-sm sm:text-base text-slate-100 font-serif leading-relaxed shadow-inner">
+                    <span id="sentence-prompt">___ the regulatory approval was delayed, the rollout succeeded on target.</span>
+                </div>
+
+                <!-- Voice Spell Pronunciation Button -->
+                <button id="voice-spell-btn" class="w-full mb-3 py-2 bg-indigo-950/80 hover:bg-indigo-900/80 border border-indigo-500/50 text-indigo-200 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center gap-2 shadow-md cursor-pointer">
+                    <i class="fa-solid fa-microphone text-rose-400 animate-pulse"></i> <span id="voice-spell-label">VOICE SPELL (Speak Option Out Loud for +50 Bonus Aura EXP)</span>
                 </button>
-
-                <!-- Expanded Details on Mobile / Always visible on Desktop -->
-                <div id="hunter-details-panel" class="w-full bg-slate-950/80 rounded-xl p-3 border border-blue-900/30 text-left text-xs space-y-1.5 font-mono">
-                    <div class="flex justify-between text-slate-400"><span>Combat System:</span> <span class="text-emerald-400 font-bold">Active Practice</span></div>
-                    <div class="flex justify-between text-slate-400"><span>Shadow Army Count:</span> <span id="shadow-count" class="text-cyan-400 font-bold">0</span></div>
-                    <div class="flex justify-between text-slate-400"><span>Equipped Artifacts:</span> <span id="equipped-count" class="text-amber-400 font-bold">0</span></div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Battle Combat Zone (Placed directly after Boss card on mobile for smooth flow) -->
-        <div id="combat-card" class="bg-slate-900/90 border border-blue-900/40 rounded-2xl p-4 sm:p-6 relative hunter-glow">
-            <div class="flex justify-between items-center mb-2.5">
-                <span id="lesson-tag" class="text-[11px] sm:text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Lesson 1 Spell</span>
-                <span class="text-[11px] sm:text-xs text-slate-400 font-mono"><i class="fa-solid fa-hand-sparkles text-blue-400"></i> Rune Skill</span>
-            </div>
-
-            <h3 id="prompt-desc" class="text-slate-300 text-xs sm:text-sm font-medium mb-3">Formulate the correct grammatical resonance:</h3>
-
-            <div class="bg-black/70 border border-blue-950 rounded-xl p-3.5 sm:p-4 mb-4 sm:mb-5 text-sm sm:text-base text-slate-100 font-serif leading-relaxed shadow-inner">
-                <span id="sentence-prompt">___ the regulatory approval was delayed, the rollout succeeded on target.</span>
-            </div>
 
             <div id="options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <!-- Injected via JS -->
@@ -353,15 +450,193 @@
     <div id="shop-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
         <div class="bg-slate-900 border border-amber-500/40 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-2xl max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                <h3 class="font-extrabold text-amber-400 tracking-wider text-sm sm:text-base flex items-center gap-2">
+                <h3 id="shop-modal-title" class="font-extrabold text-amber-400 tracking-wider text-sm sm:text-base flex items-center gap-2">
                     <i class="fa-solid fa-gem"></i> SYSTEM ARTIFACT VAULT
                 </h3>
                 <button id="close-shop-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
 
-            <p class="text-xs text-slate-400 my-2.5 font-mono">Purchase weapons, rings, and mana elixirs using Gold extracted from Gate Bosses.</p>
+            <p id="shop-modal-desc" class="text-xs text-slate-400 my-2.5 font-mono">Purchase weapons, rings, and mana elixirs using Gold extracted from Gate Bosses.</p>
 
             <div id="shop-items-list" class="space-y-2.5 overflow-y-auto pr-1 flex-1 max-h-[60vh]">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Class Specialization & Passive Buff Tree Modal -->
+    <div id="class-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-slate-900 via-slate-950 to-black border-2 border-purple-500/60 rounded-2xl max-w-2xl w-full p-4 sm:p-6 relative shadow-[0_0_35px_rgba(168,85,247,0.4)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-purple-900/50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-purple-400 text-lg animate-pulse"></i>
+                    <h3 id="class-modal-title" class="font-black text-purple-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        HUNTER CLASS SPECIALIZATIONS & PASSIVE TREES
+                    </h3>
+                </div>
+                <button id="close-class-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Class Selection Cards -->
+            <div class="my-3 font-mono">
+                <span id="select-class-label" class="text-xs text-slate-300 font-bold block mb-2">SELECT YOUR SPECIALIZATION CLASS:</span>
+                <div id="class-cards-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- Passive Skill Buff Tree -->
+            <div class="mt-2 pt-3 border-t border-purple-900/40 flex-1 overflow-y-auto pr-1">
+                <h4 id="active-buff-tree-label" class="text-xs font-bold text-cyan-300 font-mono mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-diagram-project"></i> ACTIVE CLASS PASSIVE BUFF TREE
+                </h4>
+                <div id="passive-tree-container" class="space-y-2.5 font-mono">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Red Gate Event Modal -->
+    <div id="redgate-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-rose-950 via-slate-950 to-black border-2 border-rose-600/70 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-[0_0_40px_rgba(244,63,94,0.6)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-rose-900/60">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-rose-500 text-lg animate-pulse"></i>
+                    <h3 id="redgate-modal-title" class="font-black text-rose-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        DAILY RED GATE EMERGENCY EVENT
+                    </h3>
+                </div>
+                <button id="close-redgate-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div id="redgate-modal-desc" class="my-3 p-3 bg-rose-950/60 border border-rose-700/60 rounded-xl text-xs font-mono text-rose-200">
+                <strong>⚠️ HIGH STAKES PROFESSIONAL SCENARIO:</strong> Emergency executive email request from Hunter Association Headquarters. 2x Gold & S-Rank Relic rewards!
+            </div>
+
+            <div id="redgate-content" class="space-y-3 font-mono flex-1 overflow-y-auto">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Community World Raid Boss Modal -->
+    <div id="raid-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-indigo-950 via-slate-950 to-black border-2 border-indigo-500/70 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-[0_0_40px_rgba(99,102,241,0.6)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-indigo-900/60">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-dragon text-amber-400 text-lg animate-pulse"></i>
+                    <h3 id="raid-modal-title" class="font-black text-indigo-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        GLOBAL CO-OP WORLD RAID BOSS
+                    </h3>
+                </div>
+                <button id="close-raid-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div id="raid-modal-desc" class="my-3 p-3 bg-indigo-950/60 border border-indigo-700/60 rounded-xl text-xs font-mono text-indigo-200">
+                <strong>🐉 WORLD MONARCH BOSS:</strong> Combine damage with Hunters worldwide! Deal damage by answering high-level CEFR B2 & IELTS 6.5+ grammar challenges!
+            </div>
+
+            <div id="raid-content" class="space-y-3 font-mono flex-1 overflow-y-auto">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ARISE Shadow Extraction Modal -->
+    <div id="arise-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-cyan-950 via-slate-950 to-black border-2 border-cyan-500/80 rounded-2xl max-w-md w-full p-6 relative shadow-[0_0_50px_rgba(6,182,212,0.7)] flex flex-col items-center text-center">
+            <i class="fa-solid fa-ghost text-cyan-400 text-5xl mb-3 animate-pulse"></i>
+            <h3 id="arise-modal-title" class="font-black text-cyan-300 text-lg sm:text-xl uppercase font-mono tracking-widest">
+                [SHADOW EXTRACTION]
+            </h3>
+            <p class="text-xs text-slate-300 font-mono my-2" id="arise-desc">
+                Gate Boss defeated! Extract monarch soul into your active Shadow Army?
+            </p>
+            <button id="arise-action-btn" class="w-full py-3 mt-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold font-mono rounded-xl text-sm shadow-[0_0_25px_rgba(6,182,212,0.6)] uppercase tracking-wider cursor-pointer transition active:scale-95">
+                ARISE (Extract Shadow)
+            </button>
+        </div>
+    </div>
+
+    <!-- Active Shadow Army Modal -->
+    <div id="army-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-slate-900 via-slate-950 to-black border-2 border-cyan-500/60 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-[0_0_35px_rgba(6,182,212,0.4)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-cyan-900/50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-ghost text-cyan-400 text-lg animate-pulse"></i>
+                    <h3 id="army-modal-title" class="font-black text-cyan-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        SHADOW ARMY VAULT & PARTY BUFFS
+                    </h3>
+                </div>
+                <button id="close-army-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="army-list-container" class="space-y-2.5 my-3 font-mono flex-1 overflow-y-auto pr-1">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Awakening Milestone Trials Modal -->
+    <div id="trials-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-amber-950 via-slate-950 to-black border-2 border-amber-500/70 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-[0_0_40px_rgba(245,158,11,0.5)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-amber-900/60">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400 text-lg animate-pulse"></i>
+                    <h3 id="trials-modal-title" class="font-black text-amber-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        SHADOW MONARCH AWAKENING TRIALS
+                    </h3>
+                </div>
+                <button id="close-trials-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p id="trials-modal-desc" class="text-xs text-amber-200 font-mono my-2">Milestone Quests at Levels 10, 25, and 50 unlock exclusive titles, visual evolutionary auras, and stat multipliers!</p>
+            <div id="trials-list-container" class="space-y-3 font-mono flex-1 overflow-y-auto pr-1">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily System Directives & Punishment Zone Modal -->
+    <div id="daily-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-emerald-950 via-slate-950 to-black border-2 border-emerald-500/70 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-[0_0_40px_rgba(16,185,129,0.5)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-emerald-900/60">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-emerald-400 text-lg animate-pulse"></i>
+                    <h3 id="daily-modal-title" class="font-black text-emerald-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        DAILY SYSTEM DIRECTIVES & STREAK QUESTS
+                    </h3>
+                </div>
+                <button id="close-daily-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="daily-modal-desc" class="my-3 p-3 bg-emerald-950/60 border border-emerald-700/60 rounded-xl text-xs font-mono text-emerald-200 flex justify-between items-center">
+                <span>🔥 <strong>Current Daily Streak:</strong> <span id="daily-streak-val" class="font-bold text-amber-400">1 Day(s)</span></span>
+                <button id="punishment-zone-btn" class="px-2.5 py-1 bg-rose-800 hover:bg-rose-700 text-white font-bold rounded text-[10px] uppercase cursor-pointer">
+                    ⚠️ Punishment Zone Recovery
+                </button>
+            </div>
+            <div id="daily-quests-container" class="space-y-3 font-mono flex-1 overflow-y-auto pr-1">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Hunter Leaderboards & Guild Raids Modal -->
+    <div id="leaderboard-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-blue-950 via-slate-950 to-black border-2 border-blue-500/70 rounded-2xl max-w-2xl w-full p-4 sm:p-6 relative shadow-[0_0_40px_rgba(59,130,246,0.5)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-blue-900/60">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-ranking-star text-cyan-400 text-lg animate-pulse"></i>
+                    <h3 id="leaderboard-modal-title" class="font-black text-cyan-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        GLOBAL HUNTER LEADERBOARDS & GUILDS
+                    </h3>
+                </div>
+                <button id="close-leaderboard-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="leaderboard-tabs" class="flex gap-2 my-3 font-mono">
+                <button id="tab-global-rank" class="px-3 py-1.5 bg-blue-600 text-white font-bold rounded-lg text-xs">Global Ranks</button>
+                <button id="tab-guild-rank" class="px-3 py-1.5 bg-slate-800 text-slate-300 hover:bg-blue-900 font-bold rounded-lg text-xs">Hunter Guilds</button>
+            </div>
+            <div id="leaderboard-content-container" class="space-y-2.5 font-mono flex-1 overflow-y-auto pr-1">
                 <!-- Injected via JS -->
             </div>
         </div>

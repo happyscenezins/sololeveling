@@ -1,0 +1,25 @@
+{
+  "name": "Arise Hunter — Solo Fluency RPG System",
+  "short_name": "SoloFluency",
+  "description": "Solo Leveling RPG English Fluency System for lifelong learners and test-takers (IELTS 6.5+, TOEIC, CEFR B2). Slay Gate Monarchs using grammatical precision!",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "categories": ["education", "games", "productivity"],
+  "icons": [
+    {
+      "src": "https://img.icons8.com/isometric/192/000000/sword.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://img.icons8.com/isometric/512/000000/sword.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

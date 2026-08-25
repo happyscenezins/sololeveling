@@ -1,21 +1,39 @@
 const translations = {
   en: {
+    systemHeader: "[HUNTER SYSTEM]",
     systemTitle: "Shadow Monarch",
     hunterStatus: "[HUNTER STATUS]",
     awakenedName: "Sung Jin-Woo (Awakened)",
+    rankStriker: "Rank: E-Rank Striker",
+    hunterHpLabel: "HUNTER HP",
+    goldLabel: "GOLD",
+    expLabel: "EXP",
+    openStatusWindowBtn: "Open Status Window",
+    combatSystemActive: "Combat System: Active Practice",
     passiveExtract: "Passive Extraction:",
     shadowArmy: "Shadow Army Count:",
     equippedArtifacts: "Equipped Artifacts:",
     gateMonarchHp: "GATE MONARCH HP",
-    unleashSkill: "Unleash Rune Skill",
+    runeSkill: "Rune Skill",
+    lessonTag: "Spell Challenge",
     resonancePrompt: "Formulate the correct grammatical resonance:",
-    shadowsExtracting: "Shadows extracting ambient mana offline:",
+    voiceSpellBtn: "VOICE SPELL (Speak Option Out Loud for +50 Bonus Aura EXP)",
     ariseBtn: "ARISE (Extract EXP)",
     shopBtn: "Shop",
+    classBtn: "Class",
+    redgateBtn: "Red Gate",
+    raidBtn: "World Raid",
+    grimoireBtn: "Grimoire",
+    armyBtn: "Army",
+    trialsBtn: "Trials",
+    dailyBtn: "Directives",
+    leaderboardBtn: "Ranks",
+    installBtn: "INSTALL SYSTEM APP",
     resetBtn: "Reset",
     vaultTitle: "SYSTEM ARTIFACT VAULT",
     vaultDesc: "Purchase weapons, rings, and mana elixirs using Gold extracted from Gate Bosses.",
     equipped: "Equipped",
+    buyBtn: "Buy",
     critStrike: "⚡ SHADOW CRITICAL HIT!",
     directHit: "DIRECT HIT!",
     spellFail: "SPELL COLLAPSED! Grammatical divergence detected.",
@@ -42,25 +60,80 @@ const translations = {
     agiDesc: "+1.5% Critical Hit Chance per point",
     intDesc: "+2% EXP gained per question per point",
     senDesc: "+3 Gold earned per correct answer",
-    levelUpPointsAlert: "⚡ [SYSTEM NOTIFICATION] You earned +5 Stat Points! Open Status Window to allocate them."
+    levelUpPointsAlert: "⚡ [SYSTEM NOTIFICATION] You earned +1 Stat Point! Open Status Window to allocate it.",
+
+    // Class Modal
+    classModalTitle: "HUNTER CLASS SPECIALIZATIONS & PASSIVE TREES",
+    selectClassLabel: "SELECT YOUR SPECIALIZATION CLASS:",
+    activeBuffTreeLabel: "ACTIVE CLASS PASSIVE BUFF TREE",
+    btnSelect: "SELECT",
+    btnActive: "ACTIVE",
+    btnUnlockPassive: "UNLOCK PASSIVE",
+    btnUnlocked: "UNLOCKED",
+    btnLocked: "LOCKED",
+
+    // Red Gate Modal
+    redgateModalTitle: "DAILY RED GATE EMERGENCY EVENT",
+    redgateDesc: "⚠️ HIGH STAKES PROFESSIONAL SCENARIO: Emergency executive email request from Hunter Association Headquarters. 2x Gold & S-Rank Relic rewards!",
+
+    // World Raid Modal
+    raidModalTitle: "GLOBAL CO-OP WORLD RAID BOSS",
+    raidDesc: "🐉 WORLD MONARCH BOSS: Combine damage with Hunters worldwide! Deal damage by answering high-level CEFR B2 & IELTS 6.5+ grammar challenges!",
+    raidContributionLabel: "Your Total Raid Contribution:",
+
+    // ARISE Extraction Modal
+    ariseModalTitle: "[SHADOW EXTRACTION]",
+    ariseActionBtn: "ARISE (Extract Shadow)",
+
+    // Shadow Army Modal
+    armyModalTitle: "SHADOW ARMY VAULT & PARTY BUFFS",
+    armyEmpty: "No Shadow Soldiers extracted yet! Defeat Gate Bosses to activate 'ARISE' extraction.",
+    activeShadowBadge: "ACTIVE SHADOW",
+
+    // Grimoire of Flaws Modal
+    grimoireModalTitle: "GRIMOIRE OF FLAWS (MISTAKE VAULT)",
+    grimoireDesc: "Targeted Retraining Ground: Re-fight incorrectly answered questions until mastered!",
+    grimoireEmpty: "🏆 Grimoire of Flaws is empty! Flawless accuracy achieved so far!",
+    btnRefight: "RE-FIGHT QUESTION",
+    gateCollapseAlert: "⚠️ [GATE COLLAPSE] Hunter HP dropped to 0! Gate Monarch reset to 100% HP and deducted 15% floor gold.",
+    grammarBarrierActive: "🛡️ [GRAMMAR BARRIER ACTIVATED] Boss gained an absolute shield! Achieve a streak of 2 consecutive correct answers to shatter!",
+    grammarBarrierShattered: "💥 [BARRIER SHATTERED] Grammar barrier destroyed! Direct damage resumed!"
   },
   th: {
+    systemHeader: "[ระบบฮันเตอร์]",
     systemTitle: "จักรพรรดิแห่งเงา",
     hunterStatus: "[สถานะฮันเตอร์]",
     awakenedName: "ซองจินอู (ผู้ตื่นรู้)",
+    rankStriker: "ขั้น: ฮันเตอร์สายโจมตีแรงก์ E",
+    hunterHpLabel: "พลังชีวิตฮันเตอร์",
+    goldLabel: "ทอง",
+    expLabel: "EXP",
+    openStatusWindowBtn: "เปิดหน้าต่างสถานะ",
+    combatSystemActive: "ระบบต่อสู้: ฝึกฝนการต่อสู้",
     passiveExtract: "อัตราสกัดพลังงานออฟไลน์:",
     shadowArmy: "จำนวนกองทัพเงา:",
     equippedArtifacts: "อาร์ติแฟกต์ที่สวมใส่:",
     gateMonarchHp: "พลังชีวิตมอนสเตอร์เกท",
-    unleashSkill: "ปลดปล่อยทักษะรูน",
+    runeSkill: "ทักษะรูน",
+    lessonTag: "แบบท้าทายเวทมนตร์",
     resonancePrompt: "เลือกโครงสร้างไวยากรณ์ที่ถูกต้องเพื่อสร้างการโจมตี:",
-    shadowsExtracting: "กองทัพเงากำลังสกัดมานาขณะออฟไลน์:",
+    voiceSpellBtn: "🎤 ท่องเวทมนตร์ด้วยเสียง (ออกเสียงตอบเพื่อรับ +50 EXP)",
     ariseBtn: "จงตื่น (สกัด EXP)",
     shopBtn: "ร้านค้า",
+    classBtn: "คลาส",
+    redgateBtn: "เกทสีชาด",
+    raidBtn: "เรดบอสโลก",
+    grimoireBtn: "ตำราข้อผิดพลาด",
+    armyBtn: "กองทัพเงา",
+    trialsBtn: "การทดสอบ",
+    dailyBtn: "ภารกิจประจำวัน",
+    leaderboardBtn: "อันดับโลก",
+    installBtn: "ติดตั้งแอปพลิเคชัน",
     resetBtn: "รีเซ็ต",
     vaultTitle: "คลังแสงอาร์ติแฟกต์ระบบ",
     vaultDesc: "ซื้ออาวุธ แหวน และน้ำยามานาโดยใช้ทองที่ได้จากการเคลียร์บอสเกท",
     equipped: "สวมใส่อยู่",
+    buyBtn: "ซื้อ",
     critStrike: "⚡ คริติคอลฮิตจากเงา!",
     directHit: "โจมตีสำเร็จ!",
     spellFail: "เวทมนตร์ล้มเหลว! ตรวจพบโครงสร้างไวยากรณ์ผิดพลาด",
@@ -79,15 +152,52 @@ const translations = {
     unallocatedPoints: "แต้มสเตตัสคงเหลือ:",
     strLabel: "STR (พละกำลัง)",
     vitLabel: "VIT (พลังชีวิต)",
-    agiLabel: "AGI (ความคล่องแคล่ว)",
+    agiLabel: "AGI (ความคล่องตัว)",
     intLabel: "INT (สติปัญญา)",
     senLabel: "SEN (ประสาทสัมผัส)",
     strDesc: "+5 พลังโจมตีต่อแต้ม",
     vitDesc: "+15 พลังชีวิตสูงสุดและฟื้นฟูเลือดต่อแต้ม",
     agiDesc: "+1.5% อัตราคริติคอลต่อแต้ม",
-    intDesc: "+1 EXP ออฟไลน์/นาที ต่อแต้ม",
+    intDesc: "+2% EXP ต่อคำตอบต่อแต้ม",
     senDesc: "+3 ทองที่ได้รับต่อคำตอบที่ถูกต้อง",
-    levelUpPointsAlert: "⚡ [การแจ้งเตือนจากระบบ] คุณได้รับแต้มสเตตัส +5 แต้ม! เปิดหน้าต่างสเตตัสเพื่ออัปเกรด"
+    levelUpPointsAlert: "⚡ [การแจ้งเตือนจากระบบ] คุณได้รับแต้มสเตตัส +1 แต้ม! เปิดหน้าต่างสเตตัสเพื่ออัปเกรด",
+
+    // Class Modal
+    classModalTitle: "คลาสพิเศษฮันเตอร์และแผนผังพาสซีฟบัฟ",
+    selectClassLabel: "เลือกคลาสพิเศษของคุณ:",
+    activeBuffTreeLabel: "แผนผังพาสซีฟบัฟของคลาสที่ใช้งานอยู่",
+    btnSelect: "เลือกคลาส",
+    btnActive: "ใช้งานอยู่",
+    btnUnlockPassive: "ปลดล็อกพาสซีฟ",
+    btnUnlocked: "ปลดล็อกแล้ว",
+    btnLocked: "ล็อกอยู่",
+
+    // Red Gate Modal
+    redgateModalTitle: "เหตุการณ์ฉุกเฉินเกทสีชาดประจำวัน",
+    redgateDesc: "⚠️ สถานการณ์ฉุกเฉินระดับสูง: อีเมลผู้บริหารด่วนจากสมาคมฮันเตอร์ รับทอง 2 เท่าและอาร์ติแฟกต์ระดับ S!",
+
+    // World Raid Modal
+    raidModalTitle: "เรดบอสโลกร่วมมือระดับโกลบอล",
+    raidDesc: "🐉 บอสจักรพรรดิโลก: รวมพลังโจมตีกับฮันเตอร์ทั่วโลก! สร้างความเสียหายโดยตอบคำถามไวยากรณ์ CEFR B2 & IELTS 6.5+!",
+    raidContributionLabel: "ความเสียหายสะสมของคุณ:",
+
+    // ARISE Extraction Modal
+    ariseModalTitle: "[การสกัดเงา]",
+    ariseActionBtn: "จงตื่น (สกัดเงา)",
+
+    // Shadow Army Modal
+    armyModalTitle: "คลังกองทัพเงาและพาสซีฟบัฟปาร์ตี้",
+    armyEmpty: "ยังไม่มีทหารเงาที่สกัดได้! จงไปกำจัดบอสเกทเพื่อเปิดใช้งานการสกัดเงา",
+    activeShadowBadge: "เงาที่ทำงานอยู่",
+
+    // Grimoire of Flaws Modal
+    grimoireModalTitle: "ตำราแห่งข้อผิดพลาด (คลังข้อสอบที่ตอบผิด)",
+    grimoireDesc: "สนามฝึกฝนเฉพาะจุด: ตอบข้อสอบที่เคยตอบผิดซ้ำจนกว่าจะเชี่ยวชาญ 100%!",
+    grimoireEmpty: "🏆 ตำราข้อผิดพลาดว่างเปล่า! ความแม่นยำไร้ที่ติ!",
+    btnRefight: "ท้าทายคำถามใหม่",
+    gateCollapseAlert: "⚠️ [เกทพังทลาย] HP ฮันเตอร์เหลือ 0! บอสฟื้นฟูเลือดเต็ม 100% และสูญเสียทอง 15%",
+    grammarBarrierActive: "🛡️ [บาเรียไวยากรณ์ทำงาน] บอสได้รับเกราะป้องกันเด็ดขาด! ตอบถูกต่อเนื่อง 2 ข้อเพื่อทำลาย!",
+    grammarBarrierShattered: "💥 [ทำลายบาเรียสำเร็จ] ทำลายเกราะไวยากรณ์แล้ว! สร้างความเสียหายโดยตรงต่อไป!"
   }
 };
 
@@ -145,7 +255,7 @@ const dungeonFloors = [
     floor: 1,
     title: "E-Rank Gate: The Whispering Ruins",
     module: "Module 1: Structural Control & Narrative Precision",
-    boss: { name: "Syntactic Golem", maxHp: 1000, iconClass: "fa-solid fa-cube", rank: "E-Rank" },
+    boss: { name: "Syntactic Golem", maxHp: 1000, armor: 0.40, iconClass: "fa-solid fa-cube", rank: "E-Rank" },
     challenges: [
       {
         lesson: "Lesson 1: Complex Sentence Mastery",
@@ -178,6 +288,54 @@ const dungeonFloors = [
         options: ["provided that", "in spite of", "whereas", "on account of"],
         correctIndex: 0,
         explanation: "'Provided that' introduces a mandatory precondition in formal contracts."
+      },
+      {
+        lesson: "Lesson 1: Non-Defining Relative Pronouns",
+        prompt: "Select the proper relative pronoun for a non-restrictive clause referring to a project:",
+        sentence: "The new software suite, ___ cost millions to develop, significantly improved workflow efficiency.",
+        options: ["which", "that", "what", "whose"],
+        correctIndex: 0,
+        explanation: "Non-defining clauses require 'which' for non-human subjects."
+      },
+      {
+        lesson: "Lesson 1: Contrast Subordinate Clauses",
+        prompt: "Choose the formal concession conjunction for contrasting clauses:",
+        sentence: "___ the flight was delayed by heavy snow, the delegation arrived in time for the summit.",
+        options: ["Although", "Therefore", "Despite of", "Owing to"],
+        correctIndex: 0,
+        explanation: "'Although' introduces a subordinate clause expressing contrast."
+      },
+      {
+        lesson: "Lesson 1: Human Subject Pronouns",
+        prompt: "Identify the correct relative pronoun referring to an active team leader:",
+        sentence: "The project manager ___ led the cross-functional team was awarded Hunter of the Month.",
+        options: ["who", "which", "whom", "where"],
+        correctIndex: 0,
+        explanation: "'Who' is the correct subject relative pronoun for human antecedents."
+      },
+      {
+        lesson: "Lesson 1: Conditional Stipulations",
+        prompt: "Select the formal conjunction introducing a required condition:",
+        sentence: "We can initiate the deployment phase next week, ___ all safety protocols are approved.",
+        options: ["assuming that", "even if", "in order to", "as though"],
+        correctIndex: 0,
+        explanation: "'Assuming that' introduces a valid operational precondition."
+      },
+      {
+        lesson: "Lesson 1: Possessive Relative Pronouns",
+        prompt: "Choose the possessive relative pronoun for an organization:",
+        sentence: "The confidential report, ___ details were leaked to the press, caused a market dip.",
+        options: ["whose", "which", "that", "where"],
+        correctIndex: 0,
+        explanation: "'Whose' acts as the possessive relative pronoun for both persons and entities."
+      },
+      {
+        lesson: "Lesson 1: Prepositional Concession Phrases",
+        prompt: "Pick the prepositional phrase indicating contrast despite adverse conditions:",
+        sentence: "___ the economic downturn, the firm expanded its international operations.",
+        options: ["In spite of", "Because of", "Due to", "As a result of"],
+        correctIndex: 0,
+        explanation: "'In spite of' is a prepositional phrase expressing contrast."
       }
     ]
   },
@@ -185,7 +343,7 @@ const dungeonFloors = [
     floor: 2,
     title: "E-Rank Gate: The Timeless Crypt",
     module: "Module 1: Structural Control & Narrative Precision",
-    boss: { name: "Chronos Specter", maxHp: 1400, iconClass: "fa-solid fa-ghost", rank: "E-Rank" },
+    boss: { name: "Chronos Specter", maxHp: 1500, armor: 0.40, iconClass: "fa-solid fa-ghost", rank: "E-Rank" },
     challenges: [
       {
         lesson: "Lesson 2: Narrative Tenses & Sequence",
@@ -218,6 +376,54 @@ const dungeonFloors = [
         options: ["had completed", "completes", "has completed", "is completing"],
         correctIndex: 0,
         explanation: "Past Perfect indicates completion prior to the past point 'the fiscal year ended'."
+      },
+      {
+        lesson: "Lesson 2: Sequence of Past Events",
+        prompt: "Select the tense for an event completed prior to a past meeting:",
+        sentence: "Before the board meeting convened, the research division ___ the preliminary data.",
+        options: ["had compiled", "was compiling", "compiles", "has compiled"],
+        correctIndex: 0,
+        explanation: "'Had compiled' places the compilation prior to 'convened'."
+      },
+      {
+        lesson: "Lesson 2: Duration in the Past",
+        prompt: "Choose the continuous tense for duration leading up to a system outage:",
+        sentence: "The engineers ___ on the server infrastructure for six months before the outage occurred.",
+        options: ["had been working", "were working", "have worked", "had worked"],
+        correctIndex: 0,
+        explanation: "'Had been working' emphasizes duration leading up to a past cutoff."
+      },
+      {
+        lesson: "Lesson 2: Inverted Time Expressions",
+        prompt: "Formulate inverted past sequence using 'Hardly':",
+        sentence: "Hardly ___ the presentation started when the emergency alarm rang out.",
+        options: ["had", "did", "was", "has"],
+        correctIndex: 0,
+        explanation: "'Hardly had [subject] [past participle]' is the standard inverted sequence pattern."
+      },
+      {
+        lesson: "Lesson 2: Completed Action Prior to Target Time",
+        prompt: "Select the verb form for completed verification by a specific past time:",
+        sentence: "By midnight, the security team ___ all system access logs.",
+        options: ["had reviewed", "reviewed", "was reviewing", "has reviewed"],
+        correctIndex: 0,
+        explanation: "'By midnight' + past reference point calls for Past Perfect 'had reviewed'."
+      },
+      {
+        lesson: "Lesson 2: Continuous Past Effort",
+        prompt: "Emphasize continuous analytical effort prior to breakthrough:",
+        sentence: "She ___ for three hours before she finally solved the complex cipher.",
+        options: ["had been analyzing", "was analyzing", "has analyzed", "analyzed"],
+        correctIndex: 0,
+        explanation: "Past Perfect Continuous highlights continuous effort preceding a resolution."
+      },
+      {
+        lesson: "Lesson 2: Correlative Inversion ('No sooner')",
+        prompt: "Identify the correct auxiliary verb in 'No sooner... than' constructions:",
+        sentence: "No sooner ___ the contract been signed than both parties initiated phase one.",
+        options: ["had", "did", "was", "has"],
+        correctIndex: 0,
+        explanation: "'No sooner had... than...' is the standard inverted formula."
       }
     ]
   },
@@ -225,7 +431,7 @@ const dungeonFloors = [
     floor: 3,
     title: "D-Rank Gate: The Inverted Spire",
     module: "Module 1: Structural Control & Narrative Precision",
-    boss: { name: "Arch-Lich of Inversion", maxHp: 1900, iconClass: "fa-solid fa-skull-crossbones", rank: "D-Rank" },
+    boss: { name: "Arch-Lich of Inversion", maxHp: 2000, armor: 0.40, iconClass: "fa-solid fa-skull-crossbones", rank: "D-Rank" },
     challenges: [
       {
         lesson: "Lesson 3: Conditionals & Inversion",
@@ -267,7 +473,7 @@ const dungeonFloors = [
     floor: 4,
     title: "D-Rank Gate: Hall of Deductions",
     module: "Module 2: Nuance, Modality, & Register",
-    boss: { name: "Dread Knight of Deduction", maxHp: 2500, iconClass: "fa-solid fa-shield-cat", rank: "D-Rank" },
+    boss: { name: "Dread Knight of Deduction", maxHp: 2500, armor: 0.45, iconClass: "fa-solid fa-shield-cat", rank: "D-Rank" },
     challenges: [
       {
         lesson: "Lesson 4: Modal Verbs for Past Deduction",
@@ -307,7 +513,7 @@ const dungeonFloors = [
     floor: 5,
     title: "C-Rank Gate: Impersonal Bastion",
     module: "Module 2: Nuance, Modality, & Register",
-    boss: { name: "Iron Golem of Protocol", maxHp: 3200, iconClass: "fa-solid fa-robot", rank: "C-Rank" },
+    boss: { name: "Iron Golem of Protocol", maxHp: 3000, armor: 0.45, iconClass: "fa-solid fa-robot", rank: "C-Rank" },
     challenges: [
       {
         lesson: "Lesson 5: Passive Voice & Reporting Verbs",
@@ -347,7 +553,7 @@ const dungeonFloors = [
     floor: 6,
     title: "C-Rank Gate: Diplomatic Sanctuary",
     module: "Module 2: Nuance, Modality, & Register",
-    boss: { name: "High Chancellor Malakor", maxHp: 4000, iconClass: "fa-solid fa-hand-fist", rank: "C-Rank" },
+    boss: { name: "High Chancellor Malakor", maxHp: 3500, armor: 0.50, iconClass: "fa-solid fa-hand-fist", rank: "C-Rank" },
     challenges: [
       {
         lesson: "Lesson 6: Tone, Softening, & Hedging",
@@ -389,7 +595,7 @@ const dungeonFloors = [
     floor: 7,
     title: "B-Rank Gate: Cavern of Shifting Verbs",
     module: "Module 3: Natural Phrasing & Vocabulary Expansion",
-    boss: { name: "Hydra of Phrasal Roots", maxHp: 5000, iconClass: "fa-solid fa-spaghetti-monster-flying", rank: "B-Rank" },
+    boss: { name: "Hydra of Phrasal Roots", maxHp: 4500, armor: 0.50, iconClass: "fa-solid fa-spaghetti-monster-flying", rank: "B-Rank" },
     challenges: [
       {
         lesson: "Lesson 7: Phrasal Verbs in Context",
@@ -429,7 +635,7 @@ const dungeonFloors = [
     floor: 8,
     title: "B-Rank Gate: Discourse Nexus",
     module: "Module 3: Natural Phrasing & Vocabulary Expansion",
-    boss: { name: "Colossus of Transitions", maxHp: 6200, iconClass: "fa-solid fa-monument", rank: "B-Rank" },
+    boss: { name: "Colossus of Transitions", maxHp: 5500, armor: 0.55, iconClass: "fa-solid fa-monument", rank: "B-Rank" },
     challenges: [
       {
         lesson: "Lesson 8: Collocations & Discourse Markers",
@@ -469,7 +675,7 @@ const dungeonFloors = [
     floor: 9,
     title: "A-Rank Gate: Idiomatic Abyss",
     module: "Module 3: Natural Phrasing & Vocabulary Expansion",
-    boss: { name: "Behemoth of Connotations", maxHp: 7500, iconClass: "fa-solid fa-dragon", rank: "A-Rank" },
+    boss: { name: "Behemoth of Connotations", maxHp: 6500, armor: 0.55, iconClass: "fa-solid fa-dragon", rank: "A-Rank" },
     challenges: [
       {
         lesson: "Lesson 9: Idioms & Connotations",
@@ -511,7 +717,7 @@ const dungeonFloors = [
     floor: 10,
     title: "A-Rank Gate: The Executive Citadel",
     module: "Module 4: Practical Application & Polish",
-    boss: { name: "Shadow Warlord Igris", maxHp: 9000, iconClass: "fa-solid fa-chess-knight", rank: "A-Rank" },
+    boss: { name: "Shadow Warlord Igris", maxHp: 7500, armor: 0.60, iconClass: "fa-solid fa-chess-knight", rank: "A-Rank" },
     challenges: [
       {
         lesson: "Lesson 10: Persuasive Executive Writing",
@@ -551,7 +757,7 @@ const dungeonFloors = [
     floor: 11,
     title: "S-Rank Red Gate: The Chamber of Flow",
     module: "Module 4: Practical Application & Polish",
-    boss: { name: "Monarch of Fluency: Antares", maxHp: 11000, iconClass: "fa-solid fa-fire-burner", rank: "S-Rank" },
+    boss: { name: "Monarch of Fluency: Antares", maxHp: 8800, armor: 0.60, iconClass: "fa-solid fa-fire-burner", rank: "S-Rank" },
     challenges: [
       {
         lesson: "Lesson 11: Spoken Fluency & Conversational Repair",
@@ -591,7 +797,7 @@ const dungeonFloors = [
     floor: 12,
     title: "S-Rank Sovereign Gate: The World Monarch",
     module: "Module 4: Practical Application & Polish",
-    boss: { name: "Sovereign of Absolute Precision", maxHp: 15000, iconClass: "fa-solid fa-crown", rank: "S-Rank Monarch" },
+    boss: { name: "Sovereign of Absolute Precision", maxHp: 10000, armor: 0.65, iconClass: "fa-solid fa-crown", rank: "S-Rank Monarch" },
     challenges: [
       {
         lesson: "Lesson 12: Capstone Error Elimination Workshop",
