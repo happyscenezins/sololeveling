@@ -125,7 +125,7 @@ function loadChallenge(q) {
 
   q.options.forEach((opt, idx) => {
     const btn = document.createElement("button");
-    btn.className = "p-4 rounded-xl bg-slate-950/80 hover:bg-blue-950/50 border border-blue-900/40 hover:border-blue-500 font-medium text-left transition-all text-sm";
+    btn.className = "p-3.5 sm:p-4 rounded-xl bg-slate-950/90 hover:bg-blue-950/60 active:bg-blue-900/80 border border-blue-900/40 hover:border-blue-500 font-medium text-left transition-all text-xs sm:text-sm active:scale-[0.98] shadow-md flex items-center gap-2";
     btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
     btn.onclick = () => executeSpell(idx);
     optionsGrid.appendChild(btn);
@@ -349,5 +349,28 @@ resetSystemBtn.onclick = () => {
     saveGame();
   }
 };
+
+// Mobile Status Toggles
+const toggleStatusMdBtn = document.getElementById("toggle-status-md-btn");
+const hunterStatusCard = document.getElementById("hunter-status-card");
+const toggleCardDetailsBtn = document.getElementById("toggle-card-details-btn");
+const hunterDetailsPanel = document.getElementById("hunter-details-panel");
+const cardChevron = document.getElementById("card-chevron");
+
+if (toggleStatusMdBtn && hunterStatusCard) {
+  toggleStatusMdBtn.onclick = () => {
+    hunterStatusCard.scrollIntoView({ behavior: 'smooth' });
+  };
+}
+
+if (toggleCardDetailsBtn && hunterDetailsPanel) {
+  toggleCardDetailsBtn.onclick = () => {
+    hunterDetailsPanel.classList.toggle("hidden");
+    if (cardChevron) {
+      cardChevron.classList.toggle("fa-chevron-down");
+      cardChevron.classList.toggle("fa-chevron-up");
+    }
+  };
+}
 
 initGame();
