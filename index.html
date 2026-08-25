@@ -41,7 +41,11 @@
             </div>
 
             <!-- Stats Bar -->
-            <div class="flex items-center gap-5 text-sm font-semibold">
+            <div class="flex items-center gap-4 text-sm font-semibold">
+                <div class="flex items-center gap-1.5 text-rose-400 font-mono text-xs md:text-sm">
+                    <i class="fa-solid fa-heart text-rose-500"></i>
+                    <span id="header-hp-val" class="font-bold">100</span>/<span id="header-maxhp-val">100</span> HP
+                </div>
                 <div class="flex items-center gap-2 text-amber-400">
                     <i class="fa-solid fa-coins"></i>
                     <span id="gold-val">0</span> G
@@ -93,7 +97,20 @@
                 </div>
 
                 <h2 id="hero-title" class="font-extrabold text-lg text-slate-100">Sung Jin-Woo (Awakened)</h2>
-                <p id="hunter-subrank" class="text-xs text-blue-300 mb-4 font-mono">Rank: E-Rank Striker</p>
+                <p id="hunter-subrank" class="text-xs text-blue-300 mb-3 font-mono">Rank: E-Rank Striker</p>
+
+                <!-- Hunter Health Bar -->
+                <div class="w-full mb-4 space-y-1">
+                    <div class="flex justify-between text-xs font-mono font-bold">
+                        <span class="text-rose-400 flex items-center gap-1.5"><i class="fa-solid fa-heart animate-pulse"></i> HUNTER HP</span>
+                        <span id="hero-hp-label" class="text-slate-300">100 / 100</span>
+                    </div>
+                    <div class="w-full bg-slate-950 rounded-full h-3 border border-rose-950 overflow-hidden p-0.5">
+                        <div id="hero-hp-bar"
+                            class="bg-gradient-to-r from-red-600 via-rose-500 to-rose-400 h-full w-full rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(244,63,94,0.6)]">
+                        </div>
+                    </div>
+                </div>
 
                 <div
                     class="w-full bg-slate-950/80 rounded-xl p-3 border border-blue-900/30 text-left text-xs space-y-1.5 font-mono">

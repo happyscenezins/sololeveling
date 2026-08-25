@@ -18,7 +18,11 @@ const translations = {
     equipped: "Equipped",
     critStrike: "⚡ SHADOW CRITICAL HIT!",
     directHit: "DIRECT HIT!",
-    spellFail: "SPELL COLLAPSED! Grammatical divergence detected. Try again.",
+    spellFail: "SPELL COLLAPSED! Grammatical divergence detected.",
+    bossCounterAtk: "💥 BOSS COUNTER-ATTACK! You took ",
+    damageText: " damage!",
+    hunterDefeatedAlert: "⚠️ [SYSTEM EMERGENCY PROTOCOL] Shadow Monarch defeated! Mana shielding activated. HP restored, floor restarted.",
+    hpRestored: "⚡ Health restored to full!",
     gateClearAlert: "🏆 GATE CLEARED! Shadow Extracted: ",
     levelUpAlert: "⚡ [SYSTEM NOTIFICATION: LEVEL UP] You reached Level ",
     baseAtkInc: "! Base ATK increased to ",
@@ -45,7 +49,11 @@ const translations = {
     equipped: "สวมใส่อยู่",
     critStrike: "⚡ คริติคอลฮิตจากเงา!",
     directHit: "โจมตีสำเร็จ!",
-    spellFail: "เวทมนตร์ล้มเหลว! ตรวจพบโครงสร้างไวยากรณ์ผิดพลาด ลองใหม่อีกครั้ง",
+    spellFail: "เวทมนตร์ล้มเหลว! ตรวจพบโครงสร้างไวยากรณ์ผิดพลาด",
+    bossCounterAtk: "💥 บอสสวนกลับ! คุณได้รับความเสียหาย ",
+    damageText: " หน่วย!",
+    hunterDefeatedAlert: "⚠️ [ระบบเปิดใช้งานโหมดฉุกเฉิน] จักรพรรดิแห่งเงาพ่ายแพ้! มานาเกราะป้องกันทำงาน ฟื้นฟู HP และเริ่มด่านใหม่",
+    hpRestored: "⚡ ฟื้นฟูพลังชีวิตเต็ม!",
     gateClearAlert: "🏆 เคลียร์เกทสำเร็จ! สกัดเงาได้: ",
     levelUpAlert: "⚡ [การแจ้งเตือนจากระบบ: เลเวลอัป] คุณเลื่อนขั้นเป็นเลเวล ",
     baseAtkInc: "! พลังโจมตีพื้นฐานเพิ่มเป็น ",
@@ -56,6 +64,15 @@ const translations = {
 };
 
 const itemShopCatalog = [
+  {
+    id: "potion_hp",
+    name: "Red Health Potion",
+    type: "Consumable",
+    price: 40,
+    hpRestore: 50,
+    desc: "Restores +50 HP to the Shadow Monarch.",
+    icon: "fa-solid fa-heart-pulse"
+  },
   {
     id: "dagger_e",
     name: "Kasaka's Venom Fang",
