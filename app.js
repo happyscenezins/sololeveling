@@ -100,6 +100,23 @@ class WebAudioSynth {
       });
     } catch(e) {}
   }
+  playDarkRumble() {
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(90, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, this.ctx.currentTime + 0.5);
+      gain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.5);
+    } catch(e) {}
+  }
 }
 
 const audioSynth = new WebAudioSynth();
@@ -210,6 +227,37 @@ function initGame() {
   }, 5000);
 }
 
+function getShadowSoldierBuffInfo(name) {
+  let goldBonus = 0;
+  let critBonus = 0;
+  let atkBonus = 0;
+  let expBonus = 0;
+  let desc = "+15% Gold gains";
+
+  if (name.includes("Monarch") || name.includes("Antares") || name.includes("Sovereign")) {
+    expBonus = 0.30;
+    atkBonus = 50;
+    desc = "+30% EXP & +50 Base ATK";
+  } else if (name.includes("Knight") || name.includes("Igris") || name.includes("Warlord") || name.includes("Hydra")) {
+    critBonus = 0.10;
+    atkBonus = 25;
+    desc = "+10% Crit Chance & +25 Base ATK";
+  } else if (name.includes("Specter") || name.includes("Lich")) {
+    expBonus = 0.15;
+    atkBonus = 15;
+    desc = "+15% EXP & +15 Base ATK";
+  } else if (name.includes("Chancellor") || name.includes("Colossus") || name.includes("Behemoth")) {
+    goldBonus = 0.20;
+    atkBonus = 20;
+    desc = "+20% Gold gains & +20 Base ATK";
+  } else {
+    goldBonus = 0.15;
+    desc = "+15% Gold gains";
+  }
+
+  return { goldBonus, critBonus, atkBonus, expBonus, desc };
+}
+
 function getShadowArmyBuffs() {
   let goldMult = 1.0;
   let critBonus = 0;
@@ -218,16 +266,11 @@ function getShadowArmyBuffs() {
 
   if (gameState.shadowArmy && Array.isArray(gameState.shadowArmy)) {
     gameState.shadowArmy.forEach(s => {
-      if (s.name.includes("Golem")) goldMult += 0.15;
-      if (s.name.includes("Specter")) expMult += 0.15;
-      if (s.name.includes("Knight") || s.name.includes("Igris")) {
-        critBonus += 0.10;
-        atkBonus += 25;
-      }
-      if (s.name.includes("Monarch") || s.name.includes("Antares") || s.name.includes("Sovereign")) {
-        expMult += 0.30;
-        atkBonus += 50;
-      }
+      const buff = getShadowSoldierBuffInfo(s.name);
+      goldMult += buff.goldBonus;
+      critBonus += buff.critBonus;
+      atkBonus += buff.atkBonus;
+      expMult += buff.expBonus;
     });
   }
   return { goldMult, critBonus, atkBonus, expMult };
@@ -504,11 +547,13 @@ function loadChallenge(q) {
   optionsGrid.innerHTML = "";
 
   if (q.options && Array.isArray(q.options)) {
-    q.options.forEach((opt, idx) => {
+    const indexedOptions = q.options.map((opt, idx) => ({ originalIndex: idx, text: opt }));
+    const shuffledOptions = shuffleArray(indexedOptions);
+    shuffledOptions.forEach((item, displayIdx) => {
       const btn = document.createElement("button");
       btn.className = "p-3.5 sm:p-4 rounded-xl bg-slate-950/90 hover:bg-blue-950/60 active:bg-blue-900/80 border border-blue-900/40 hover:border-blue-500 font-medium text-left transition-all text-xs sm:text-sm active:scale-[0.98] shadow-md flex items-center gap-2 cursor-pointer";
-      btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
-      btn.onclick = () => executeSpell(idx);
+      btn.textContent = `${String.fromCharCode(65 + displayIdx)}. ${item.text}`;
+      btn.onclick = () => executeSpell(item.originalIndex);
       optionsGrid.appendChild(btn);
     });
   }
@@ -1209,11 +1254,13 @@ function openRedGateModal() {
   `;
 
   const grid = document.getElementById("redgate-options");
-  currentQ.options.forEach((opt, idx) => {
+  const indexedOpts = currentQ.options.map((opt, idx) => ({ originalIndex: idx, text: opt }));
+  const shuffledOpts = shuffleArray(indexedOpts);
+  shuffledOpts.forEach((item, displayIdx) => {
     const btn = document.createElement("button");
     btn.className = "p-3 rounded-xl bg-slate-950 border border-rose-900/40 hover:border-rose-500 text-left text-xs font-medium transition cursor-pointer";
-    btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
-    btn.onclick = () => executeRedGateSpell(idx, currentQ);
+    btn.textContent = `${String.fromCharCode(65 + displayIdx)}. ${item.text}`;
+    btn.onclick = () => executeRedGateSpell(item.originalIndex, currentQ);
     grid.appendChild(btn);
   });
 
@@ -1286,11 +1333,13 @@ function openRaidModal() {
   `;
 
   const grid = document.getElementById("raid-options");
-  currentQ.options.forEach((opt, idx) => {
+  const indexedOpts = currentQ.options.map((opt, idx) => ({ originalIndex: idx, text: opt }));
+  const shuffledOpts = shuffleArray(indexedOpts);
+  shuffledOpts.forEach((item, displayIdx) => {
     const btn = document.createElement("button");
     btn.className = "p-3 rounded-xl bg-slate-950 border border-indigo-900/40 hover:border-indigo-500 text-left text-xs font-medium transition cursor-pointer";
-    btn.textContent = `${String.fromCharCode(65 + idx)}. ${opt}`;
-    btn.onclick = () => attackRaidBoss(idx, currentQ);
+    btn.textContent = `${String.fromCharCode(65 + displayIdx)}. ${item.text}`;
+    btn.onclick = () => attackRaidBoss(item.originalIndex, currentQ);
     grid.appendChild(btn);
   });
 
@@ -1401,10 +1450,8 @@ function renderArmyModal() {
   }
 
   gameState.shadowArmy.forEach((s, idx) => {
-    let buffText = "+15% Gold gains";
-    if (s.name.includes("Knight") || s.name.includes("Igris")) buffText = "+10% Crit Chance & +25 Base ATK";
-    if (s.name.includes("Specter")) buffText = "+15% EXP per question";
-    if (s.name.includes("Monarch") || s.name.includes("Antares")) buffText = "+30% EXP & +50 Base ATK";
+    const buff = getShadowSoldierBuffInfo(s.name);
+    const buffText = buff.desc;
 
     const div = document.createElement("div");
     div.className = "p-3 bg-slate-950 border border-cyan-900/60 rounded-xl flex items-center justify-between";

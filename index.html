@@ -653,6 +653,25 @@
         </div>
     </div>
 
+    <!-- Grimoire of Flaws (Mistake Vault) Modal -->
+    <div id="grimoire-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-gradient-to-b from-rose-950 via-slate-950 to-black border-2 border-rose-600/70 rounded-2xl max-w-xl w-full p-4 sm:p-6 relative shadow-[0_0_40px_rgba(244,63,94,0.6)] flex flex-col max-h-[92vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-rose-900/60">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-book-skull text-rose-400 text-lg animate-pulse"></i>
+                    <h3 id="grimoire-modal-title" class="font-black text-rose-300 tracking-wider text-sm sm:text-base uppercase font-mono">
+                        GRIMOIRE OF FLAWS (MISTAKE VAULT)
+                    </h3>
+                </div>
+                <button id="close-grimoire-btn" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p id="grimoire-modal-desc" class="text-xs text-rose-200 font-mono my-2">Targeted Retraining Ground: Re-fight incorrectly answered questions until mastered!</p>
+            <div id="grimoire-list-container" class="space-y-2.5 my-2 font-mono flex-1 overflow-y-auto pr-1">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
     <script src="data/lessons.js"></script>
     <script src="app.js"></script>
 </body>

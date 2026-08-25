@@ -1,4 +1,4 @@
-const CACHE_NAME = "solo-fluency-pwa-v1";
+const CACHE_NAME = "solo-fluency-pwa-v2";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
@@ -6,7 +6,7 @@ const ASSETS_TO_CACHE = [
   "./data/lessons.js",
   "./manifest.json",
   "https://cdn.tailwindcss.com",
-  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 ];
 
 self.addEventListener("install", (event) => {
