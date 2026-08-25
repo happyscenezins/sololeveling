@@ -868,6 +868,9 @@ function updateUI() {
   setTxt("system-header-label", t.systemHeader);
   setTxt("system-title-label", t.systemTitle);
   setTxt("install-btn-label", t.installBtn);
+  setTxt("trials-btn-label", t.trialsBtn);
+  setTxt("daily-btn-label", t.dailyBtn);
+  setTxt("leaderboard-btn-label", t.leaderboardBtn);
   setTxt("class-btn-label", t.classBtn);
   setTxt("redgate-btn-label", t.redgateBtn);
   setTxt("raid-btn-label", t.raidBtn);
@@ -876,10 +879,6 @@ function updateUI() {
   setTxt("status-btn-label", t.statusBtn);
   setTxt("shop-btn-label", t.shopBtn);
   setTxt("lang-btn-label", gameState.lang === "th" ? "TH" : "EN");
-
-  setTxt("header-hp-title", t.hunterHpLabel);
-  setTxt("header-gold-title", t.goldLabel);
-  setTxt("header-exp-title", t.expLabel);
 
   setTxt("hunter-status-tag", t.hunterStatus);
   setTxt("hero-title", t.awakenedName);
@@ -1007,6 +1006,9 @@ document.getElementById("lang-toggle-btn").onclick = () => {
   renderClassModal();
   renderArmyModal();
   renderGrimoireModal();
+  renderTrialsModal();
+  renderDailyModal();
+  renderLeaderboardModal("global");
   saveGame();
 };
 
