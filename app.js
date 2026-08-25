@@ -6,6 +6,8 @@ const defaultState = {
   gold: 0,
   baseAtk: 40,
   extraAtk: 0,
+  hp: 100,
+  maxHp: 100,
   afkRateBonus: 0,
   currentFloor: 0,
   challengeIndex: 0,
@@ -15,12 +17,19 @@ const defaultState = {
 
 let gameState = JSON.parse(localStorage.getItem("soloFluency_save")) || defaultState;
 if (gameState.challengeIndex === undefined) gameState.challengeIndex = 0;
+if (gameState.maxHp === undefined) gameState.maxHp = 100 + (gameState.level - 1) * 20;
+if (gameState.hp === undefined) gameState.hp = gameState.maxHp;
 
 // DOM Elements
 const heroLvl = document.getElementById("hero-lvl");
 const heroAtk = document.getElementById("atk-val");
 const goldVal = document.getElementById("gold-val");
 const expBar = document.getElementById("exp-bar");
+const headerHpVal = document.getElementById("header-hp-val");
+const headerMaxHpVal = document.getElementById("header-maxhp-val");
+const heroHpLabel = document.getElementById("hero-hp-label");
+const heroHpBar = document.getElementById("hero-hp-bar");
+
 const hunterRankBadge = document.getElementById("hunter-rank-badge");
 const hunterSubrank = document.getElementById("hunter-subrank");
 const shadowCount = document.getElementById("shadow-count");
@@ -161,9 +170,32 @@ function executeSpell(selectedIndex) {
     }, 1200);
 
   } else {
+    // Player takes damage on wrong answer
+    const damageTaken = Math.floor(15 + (gameState.currentFloor + 1) * 5);
+    gameState.hp = Math.max(0, gameState.hp - damageTaken);
+
+    // Hero avatar red damage flash animation
+    heroAvatar.classList.add("text-rose-600", "scale-110");
+    setTimeout(() => heroAvatar.classList.remove("text-rose-600", "scale-110"), 400);
+
     battleLog.className = "mt-4 p-3 rounded-xl text-sm border bg-rose-950/70 border-rose-700 text-rose-300 block";
-    battleLog.innerHTML = `<strong>${t.spellFail}</strong>`;
-    setTimeout(() => buttons.forEach(b => b.disabled = false), 1000);
+    battleLog.innerHTML = `<strong>${t.spellFail}</strong> ${t.bossCounterAtk} <strong>${damageTaken}</strong> ${t.damageText}`;
+
+    updateUI();
+    saveGame();
+
+    if (gameState.hp <= 0) {
+      setTimeout(() => {
+        alert(t.hunterDefeatedAlert);
+        gameState.hp = gameState.maxHp;
+        loadFloor(gameState.currentFloor);
+        updateUI();
+        saveGame();
+        buttons.forEach(b => b.disabled = false);
+      }, 600);
+    } else {
+      setTimeout(() => buttons.forEach(b => b.disabled = false), 1000);
+    }
   }
 }
 
@@ -172,6 +204,7 @@ function handleBossDefeat() {
   alert(`${t.gateClearAlert}${dungeonFloors[gameState.currentFloor].boss.name}!`);
   gameState.currentFloor = (gameState.currentFloor + 1) % dungeonFloors.length;
   gameState.challengeIndex = 0;
+  gameState.hp = gameState.maxHp; // Full heal on clearing gate
   loadFloor(gameState.currentFloor);
 }
 
@@ -181,8 +214,10 @@ function checkLevelUp() {
     gameState.exp -= gameState.expToNext;
     gameState.level += 1;
     gameState.baseAtk += 20;
+    gameState.maxHp += 20;
+    gameState.hp = gameState.maxHp; // Heal to full on level up
     gameState.expToNext = Math.floor(gameState.expToNext * 1.4);
-    alert(`${t.levelUpAlert}${gameState.level}${t.baseAtkInc}${gameState.baseAtk}.`);
+    alert(`${t.levelUpAlert}${gameState.level}${t.baseAtkInc}${gameState.baseAtk}. ${t.hpRestored}`);
   }
 }
 
@@ -193,6 +228,15 @@ function updateUI() {
   heroLvl.textContent = gameState.level;
   heroAtk.textContent = totalAtk;
   goldVal.textContent = gameState.gold;
+
+  // HP Bar & text updates
+  if (headerHpVal) headerHpVal.textContent = gameState.hp;
+  if (headerMaxHpVal) headerMaxHpVal.textContent = gameState.maxHp;
+  if (heroHpLabel) heroHpLabel.textContent = `${Math.max(0, gameState.hp)} / ${gameState.maxHp}`;
+  if (heroHpBar) {
+    const hpPct = Math.max(0, Math.min(100, (gameState.hp / gameState.maxHp) * 100));
+    heroHpBar.style.width = `${hpPct}%`;
+  }
   
   const rankInfo = getHunterRank(gameState.level);
   hunterRankBadge.textContent = rankInfo.rank;
@@ -220,7 +264,7 @@ function renderShop() {
   const t = translations[gameState.lang || "en"];
   shopItemsList.innerHTML = "";
   itemShopCatalog.forEach(item => {
-    const isOwned = gameState.inventory.includes(item.id);
+    const isOwned = item.type !== "Consumable" && gameState.inventory.includes(item.id);
     const div = document.createElement("div");
     div.className = "flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800";
     div.innerHTML = `
@@ -244,17 +288,23 @@ function renderShop() {
 window.buyItem = function(itemId) {
   const t = translations[gameState.lang || "en"];
   const item = itemShopCatalog.find(i => i.id === itemId);
-  if (!item || gameState.inventory.includes(itemId)) return;
+  if (!item) return;
+  if (item.type !== "Consumable" && gameState.inventory.includes(itemId)) return;
 
   if (gameState.gold >= item.price) {
     gameState.gold -= item.price;
-    gameState.inventory.push(item.id);
+    if (item.type !== "Consumable") {
+      gameState.inventory.push(item.id);
+    }
     if (item.atkBonus) gameState.extraAtk += item.atkBonus;
     if (item.expBonus) {
       gameState.exp += item.expBonus;
       checkLevelUp();
     }
     if (item.afkBonus) gameState.afkRateBonus += item.afkBonus;
+    if (item.hpRestore) {
+      gameState.hp = Math.min(gameState.maxHp, gameState.hp + item.hpRestore);
+    }
 
     updateUI();
     renderShop();
