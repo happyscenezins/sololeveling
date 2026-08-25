@@ -126,11 +126,137 @@ function getHunterRank(level) {
   return { rank: "E-Rank Aspirant", icon: "fa-solid fa-user-ninja", color: "text-slate-400" };
 }
 
+function get3DHeroAvatarSVG(level) {
+  return `
+    <div class="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center animate-hero-3d my-1">
+      <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-900 blur-xl opacity-60 animate-pulse"></div>
+      <svg viewBox="0 0 200 200" class="w-full h-full relative z-10 drop-shadow-[0_10px_20px_rgba(6,182,212,0.8)]">
+        <defs>
+          <linearGradient id="heroAura" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0284c7" stop-opacity="0.9"/>
+            <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#6366f1" stop-opacity="0.6"/>
+          </linearGradient>
+          <linearGradient id="eyeGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#22d3ee"/>
+            <stop offset="100%" stop-color="#60a5fa"/>
+          </linearGradient>
+          <filter id="neonGlow" x1="-20%" y1="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+
+        <path d="M 30,170 Q 50,110 100,100 Q 150,110 170,170 Q 100,195 30,170 Z" fill="url(#heroAura)" opacity="0.8" />
+        <path d="M 45,150 Q 80,80 100,70 Q 120,80 155,150 Z" fill="#0f172a" stroke="#1e3a8a" stroke-width="2"/>
+        <path d="M 60,180 L 100,115 L 140,180 Z" fill="#0284c7" opacity="0.3"/>
+        <path d="M 75,130 L 100,95 L 125,130 L 100,165 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+        <path d="M 80,60 L 100,45 L 120,60 L 115,90 L 100,105 L 85,90 Z" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+        <path d="M 75,55 C 65,40 85,30 95,20 C 100,35 110,25 125,35 C 120,50 130,55 125,65 L 115,50 Z" fill="#020617" stroke="#3b82f6" stroke-width="1.5"/>
+        
+        <ellipse cx="91" cy="68" rx="4" ry="2.5" fill="url(#eyeGlow)" filter="url(#neonGlow)" />
+        <ellipse cx="109" cy="68" rx="4" ry="2.5" fill="url(#eyeGlow)" filter="url(#neonGlow)" />
+        <line x1="84" y1="68" x2="96" y2="68" stroke="#22d3ee" stroke-width="2" filter="url(#neonGlow)"/>
+        <line x1="104" y1="68" x2="116" y2="68" stroke="#22d3ee" stroke-width="2" filter="url(#neonGlow)"/>
+        
+        <path d="M 40,130 L 70,100 L 75,105 L 45,135 Z" fill="#0284c7" filter="url(#neonGlow)"/>
+        <path d="M 160,130 L 130,100 L 125,105 L 155,135 Z" fill="#0284c7" filter="url(#neonGlow)"/>
+      </svg>
+    </div>
+  `;
+}
+
+function get3DBossSpriteSVG(bossName) {
+  let innerSVG = "";
+
+  if (bossName.includes("Golem")) {
+    innerSVG = `
+      <svg viewBox="0 0 200 200" class="w-32 h-32 sm:w-44 sm:h-44 relative z-10 drop-shadow-[0_10px_25px_rgba(244,63,94,0.9)]">
+        <defs>
+          <linearGradient id="golemRock" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1e1b4b"/>
+            <stop offset="50%" stop-color="#0f172a"/>
+            <stop offset="100%" stop-color="#020617"/>
+          </linearGradient>
+          <linearGradient id="magmaCore" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ef4444"/>
+            <stop offset="100%" stop-color="#f97316"/>
+          </linearGradient>
+        </defs>
+        <polygon points="30,60 60,30 80,70 40,90" fill="url(#golemRock)" stroke="#f43f5e" stroke-width="2"/>
+        <polygon points="170,60 140,30 120,70 160,90" fill="url(#golemRock)" stroke="#f43f5e" stroke-width="2"/>
+        <polygon points="60,60 140,60 160,140 100,180 40,140" fill="url(#golemRock)" stroke="#e11d48" stroke-width="3"/>
+        <polygon points="85,90 115,90 125,130 100,145 75,130" fill="url(#magmaCore)"/>
+        <polygon points="80,25 120,25 130,55 100,70 70,55" fill="#020617" stroke="#f43f5e" stroke-width="2.5"/>
+        <line x1="85" y1="40" x2="115" y2="40" stroke="#f59e0b" stroke-width="4"/>
+      </svg>
+    `;
+  } else if (bossName.includes("Specter") || bossName.includes("Lich")) {
+    innerSVG = `
+      <svg viewBox="0 0 200 200" class="w-32 h-32 sm:w-44 sm:h-44 relative z-10 drop-shadow-[0_10px_25px_rgba(168,85,247,0.9)]">
+        <defs>
+          <linearGradient id="purpleFire" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#581c87"/>
+            <stop offset="50%" stop-color="#9333ea"/>
+            <stop offset="100%" stop-color="#c084fc"/>
+          </linearGradient>
+        </defs>
+        <path d="M 20,160 Q 40,80 100,40 Q 160,80 180,160 Q 100,190 20,160 Z" fill="url(#purpleFire)" opacity="0.85"/>
+        <path d="M 75,60 Q 100,30 125,60 L 120,100 L 100,120 L 80,100 Z" fill="#090514" stroke="#c084fc" stroke-width="2.5"/>
+        <circle cx="88" cy="72" r="5" fill="#a855f7"/>
+        <circle cx="112" cy="72" r="5" fill="#a855f7"/>
+        <path d="M 140,30 Q 190,50 170,110 L 160,105 Q 175,60 135,40 Z" fill="#c084fc"/>
+      </svg>
+    `;
+  } else if (bossName.includes("Knight") || bossName.includes("Igris") || bossName.includes("Warlord")) {
+    innerSVG = `
+      <svg viewBox="0 0 200 200" class="w-32 h-32 sm:w-44 sm:h-44 relative z-10 drop-shadow-[0_10px_25px_rgba(225,29,72,0.95)]">
+        <defs>
+          <linearGradient id="igrisPlume" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#be123c"/>
+            <stop offset="100%" stop-color="#fda4af"/>
+          </linearGradient>
+        </defs>
+        <path d="M 100,15 C 60,10 50,45 80,50 L 100,30 Z" fill="url(#igrisPlume)"/>
+        <path d="M 70,50 L 130,50 L 140,100 L 100,130 L 60,100 Z" fill="#0f172a" stroke="#e11d48" stroke-width="3"/>
+        <polygon points="75,70 125,70 120,80 80,80" fill="#ff1744"/>
+        <path d="M 40,100 L 70,85 L 85,120 L 45,150 Z" fill="#1e1b4b" stroke="#e11d48" stroke-width="2"/>
+        <path d="M 160,100 L 130,85 L 115,120 L 155,150 Z" fill="#1e1b4b" stroke="#e11d48" stroke-width="2"/>
+        <path d="M 100,100 L 100,190 L 95,190 L 95,100 Z" fill="#fda4af"/>
+      </svg>
+    `;
+  } else {
+    innerSVG = `
+      <svg viewBox="0 0 200 200" class="w-32 h-32 sm:w-44 sm:h-44 relative z-10 drop-shadow-[0_10px_30px_rgba(239,68,68,1)]">
+        <defs>
+          <linearGradient id="dragonFlame" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#7f1d1d"/>
+            <stop offset="50%" stop-color="#dc2626"/>
+            <stop offset="100%" stop-color="#fbbf24"/>
+          </linearGradient>
+        </defs>
+        <path d="M 100,90 Q 20,20 10,100 Q 60,110 100,120 Z" fill="url(#dragonFlame)"/>
+        <path d="M 100,90 Q 180,20 190,100 Q 140,110 100,120 Z" fill="url(#dragonFlame)"/>
+        <path d="M 70,40 L 90,65 L 100,30 L 110,65 L 130,40 L 120,80 L 100,110 L 80,80 Z" fill="#090d16" stroke="#ef4444" stroke-width="3"/>
+        <circle cx="88" cy="72" r="4" fill="#fbbf24"/>
+        <circle cx="112" cy="72" r="4" fill="#fbbf24"/>
+      </svg>
+    `;
+  }
+
+  return `
+    <div class="relative flex items-center justify-center animate-boss-3d">
+      <div class="absolute inset-0 rounded-full bg-rose-600/20 blur-2xl animate-pulse"></div>
+      ${innerSVG}
+    </div>
+  `;
+}
+
 function loadFloor(floorIdx) {
   const floorData = dungeonFloors[floorIdx] || dungeonFloors[0];
   currentBossHp = floorData.boss.maxHp;
   bossName.textContent = floorData.boss.name;
-  bossSprite.innerHTML = `<i class="${floorData.boss.iconClass}"></i>`;
+  bossSprite.innerHTML = get3DBossSpriteSVG(floorData.boss.name);
   gateTitle.textContent = floorData.title;
   gateRankBadge.textContent = floorData.boss.rank;
   moduleLabel.textContent = floorData.module;
@@ -350,8 +476,8 @@ function updateUI() {
   const rankInfo = getHunterRank(gameState.level);
   hunterRankBadge.textContent = rankInfo.rank;
   hunterSubrank.textContent = `Rank: ${rankInfo.rank}`;
-  heroAvatar.innerHTML = `<i class="${rankInfo.icon}"></i>`;
-  heroAvatar.className = `text-5xl sm:text-7xl my-2 sm:my-3 ${rankInfo.color} drop-shadow-[0_0_15px_rgba(59,130,246,0.8)] transition-transform`;
+  heroAvatar.innerHTML = get3DHeroAvatarSVG(gameState.level);
+  heroAvatar.className = `flex justify-center items-center my-1 transition-all`;
 
   // Localized UI Text
   document.getElementById("hero-title").textContent = t.awakenedName;
